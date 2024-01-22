@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- ... -->
+    <script
+            type="text/javascript"
+            src="/homey.js"
+            data-origin="settings"
+    ></script>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<header class="homey-header">
+    <p class="homey-subtitle" data-i18n="settings.subtitle">
+        <!-- This field will also be translated -->
+    </p>
+</header>
+
+<fieldset class="homey-form-fieldset">
+    <legend class="homey-form-legend">Tapo account</legend>
+
+    <div class="homey-form-group">
+        <label class="homey-form-label" for="username">Username</label>
+        <input class="homey-form-input" id="username" type="text" value=""/>
+    </div>
+    <div class="homey-form-group">
+        <label class="homey-form-label" for="password">Password</label>
+        <input class="homey-form-input" id="password" type="password" value=""/>
+    </div>
+    <div class="homey-form-group">
+        <label for="debug" class="homey-form-label">Debug</label>
+        <input type="checkbox" id="debug" value="enabled">
+    </div>
+</fieldset>
+
+<button id="save" class="homey-button-primary-full">Save changes</button>
+<script type="text/javascript">
+  function onHomeyReady(Homey) {
+    const usernameElement = document.getElementById('username');
+    const passwordElement = document.getElementById('password');
+    const debugElement = document.getElementById('debug');
+    const saveElement = document.getElementById('save');
+
+    Homey.get('username', function(err, username) {
+      if (err) return Homey.alert(err);
+      usernameElement.value = username;
+    });
+
+    Homey.get('password', function(err, password) {
+      if (err) return Homey.alert(err);
+      passwordElement.value = password;
+    });
+
+    Homey.get('debug', function(err, debug) {
+      if (err) return Homey.alert(err);
+      if (debug) {
+        debugElement.checked = true
+      }
+    });
+
+    saveElement.addEventListener('click', function(e) {
+      Homey.set('username', usernameElement.value, function(err) {
+        if (err) return Homey.alert(err);
+      });
+      Homey.set('debug', debugElement.value, function(err) {
+        if (err) return Homey.alert(err);
+      });
+      if (passwordElement.value) {
+        Homey.set('password', passwordElement.value, function(err) {
+          if (err) return Homey.alert(err);
+        });
+      } else {
+        Homey.unset('password', function(err) {
+          if (err) return Homey.alert(err);
+        });
+      }
+    });
+
+    Homey.ready();
+  }
+</script>
+</body>
+</html>
