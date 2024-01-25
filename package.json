@@ -1,6 +1,6 @@
 {
   "name": "com.bhdit.tapo",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "main": "app.js",
   "scripts": {
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore ."
