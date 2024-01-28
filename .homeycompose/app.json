@@ -1,6 +1,6 @@
 {
   "id": "com.bhdit.tapo",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "platforms": [
@@ -11,7 +11,7 @@
     "en": "Tapo"
   },
   "description": {
-    "en": "Adds support for Tapo devices"
+    "en": "Local Tapo devices communication"
   },
   "category": [
     "lights"
@@ -19,7 +19,7 @@
   "permissions": [],
   "images": {
     "small": "/assets/images/small.png",
-    "large": "/assets/images/large.png"
+    "large": "/assets/images/large.jpg"
   },
   "author": {
     "name": "Donkfather",

@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.bhdit.tapo",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "platforms": [
@@ -12,7 +12,7 @@
     "en": "Tapo"
   },
   "description": {
-    "en": "Adds support for Tapo devices"
+    "en": "Local Tapo devices communication"
   },
   "category": [
     "lights"
@@ -20,7 +20,7 @@
   "permissions": [],
   "images": {
     "small": "/assets/images/small.png",
-    "large": "/assets/images/large.png"
+    "large": "/assets/images/large.jpg"
   },
   "author": {
     "name": "Donkfather",
@@ -38,7 +38,8 @@
         "light_mode",
         "light_temperature",
         "light_hue",
-        "light_saturation"
+        "light_saturation",
+        "tapo_effect"
       ],
       "platforms": [
         "local"
@@ -66,6 +67,125 @@
       "id": "L930"
     }
   ],
+  "capabilities": {
+    "tapo_effect": {
+      "type": "enum",
+      "title": {
+        "en": "Effect"
+      },
+      "desc": {
+        "en": "Choose light effect"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "picker",
+      "uiQuickAction": true,
+      "values": [
+        {
+          "id": "aurora",
+          "title": {
+            "en": "Aurora"
+          }
+        },
+        {
+          "id": "bubblingCauldron",
+          "title": {
+            "en": "Bubbling Cauldron"
+          }
+        },
+        {
+          "id": "candyCane",
+          "title": {
+            "en": "Candy Cane"
+          }
+        },
+        {
+          "id": "christmas",
+          "title": {
+            "en": "Christmas"
+          }
+        },
+        {
+          "id": "flicker",
+          "title": {
+            "en": "Flicker"
+          }
+        },
+        {
+          "id": "grandmasChristmasLights",
+          "title": {
+            "en": "Grandma's Christmas Lights"
+          }
+        },
+        {
+          "id": "hanukkah",
+          "title": {
+            "en": "Hanukkah"
+          }
+        },
+        {
+          "id": "hauntedMansion",
+          "title": {
+            "en": "Haunted Mansion"
+          }
+        },
+        {
+          "id": "icicle",
+          "title": {
+            "en": "Icicle"
+          }
+        },
+        {
+          "id": "lightning",
+          "title": {
+            "en": "Lightning"
+          }
+        },
+        {
+          "id": "ocean",
+          "title": {
+            "en": "Ocean"
+          }
+        },
+        {
+          "id": "rainbow",
+          "title": {
+            "en": "Rainbow"
+          }
+        },
+        {
+          "id": "raindrop",
+          "title": {
+            "en": "Raindrop"
+          }
+        },
+        {
+          "id": "spring",
+          "title": {
+            "en": "Spring"
+          }
+        },
+        {
+          "id": "sunrise",
+          "title": {
+            "en": "Sunrise"
+          }
+        },
+        {
+          "id": "sunset",
+          "title": {
+            "en": "Sunset"
+          }
+        },
+        {
+          "id": "valentines",
+          "title": {
+            "en": "Valentines"
+          }
+        }
+      ]
+    }
+  },
   "discovery": {
     "tapomac": {
       "type": "mac",
