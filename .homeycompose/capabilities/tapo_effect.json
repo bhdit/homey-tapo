@@ -1,0 +1,117 @@
+{
+  "type": "enum",
+  "title": {
+    "en": "Effect"
+  },
+  "desc": {
+    "en": "Choose light effect"
+  },
+  "getable": true,
+  "setable": true,
+  "uiComponent": "picker",
+  "uiQuickAction": true,
+  "values": [
+    {
+      "id": "aurora",
+      "title": {
+        "en": "Aurora"
+      }
+    },
+    {
+      "id": "bubblingCauldron",
+      "title": {
+        "en": "Bubbling Cauldron"
+      }
+    },
+    {
+      "id": "candyCane",
+      "title": {
+        "en": "Candy Cane"
+      }
+    },
+    {
+      "id": "christmas",
+      "title": {
+        "en": "Christmas"
+      }
+    },
+    {
+      "id": "flicker",
+      "title": {
+        "en": "Flicker"
+      }
+    },
+    {
+      "id": "grandmasChristmasLights",
+      "title": {
+        "en": "Grandma's Christmas Lights"
+      }
+    },
+    {
+      "id": "hanukkah",
+      "title": {
+        "en": "Hanukkah"
+      }
+    },
+    {
+      "id": "hauntedMansion",
+      "title": {
+        "en": "Haunted Mansion"
+      }
+    },
+    {
+      "id": "icicle",
+      "title": {
+        "en": "Icicle"
+      }
+    },
+    {
+      "id": "lightning",
+      "title": {
+        "en": "Lightning"
+      }
+    },
+    {
+      "id": "ocean",
+      "title": {
+        "en": "Ocean"
+      }
+    },
+    {
+      "id": "rainbow",
+      "title": {
+        "en": "Rainbow"
+      }
+    },
+    {
+      "id": "raindrop",
+      "title": {
+        "en": "Raindrop"
+      }
+    },
+    {
+      "id": "spring",
+      "title": {
+        "en": "Spring"
+      }
+    },
+    {
+      "id": "sunrise",
+      "title": {
+        "en": "Sunrise"
+      }
+    },
+    {
+      "id": "sunset",
+      "title": {
+        "en": "Sunset"
+      }
+    },
+    {
+      "id": "valentines",
+      "title": {
+        "en": "Valentines"
+      }
+    }
+  ]
+}

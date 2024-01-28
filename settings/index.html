@@ -32,8 +32,11 @@
         <input class="homey-form-input" id="password" type="password" value=""/>
     </div>
     <div class="homey-form-group">
-        <label for="debug" class="homey-form-label">Debug</label>
-        <input type="checkbox" id="debug" value="enabled">
+        <label for="debug" class="homey-form-checkbox">
+            <input class="homey-form-checkbox-input" type="checkbox" name="debug" id="debug" value="enabled"/>
+            <span class="homey-form-checkbox-checkmark"></span>
+            <span class="homey-form-checkbox-text">Enable debug</span>
+        </label>
     </div>
 </fieldset>
 
@@ -58,7 +61,7 @@
     Homey.get('debug', function(err, debug) {
       if (err) return Homey.alert(err);
       if (debug) {
-        debugElement.checked = true
+        debugElement.checked = true;
       }
     });
 

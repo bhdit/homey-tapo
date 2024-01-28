@@ -1,6 +1,7 @@
 'use strict';
 
 const Homey = require('homey');
+// eslint-disable-next-line node/no-unsupported-features/node-builtins
 const inspector = require('inspector');
 
 class MyApp extends Homey.App {

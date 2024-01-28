@@ -43,6 +43,12 @@ class L930Device extends Device {
       await this.#updateStateFromDevice();
     });
 
+    this.registerCapabilityListener('tapo_effect', async (value) => {
+      this.log('light_effect', value);
+      await this.deviceApi.setLightingEffect(value);
+      await this.#updateStateFromDevice();
+    });
+
     this.registerCapabilityListener('light_mode', async (...value) => {
       this.log('light_mode', value);
       await this.#updateStateFromDevice();
