@@ -13,5 +13,8 @@
   },
   "2.1.0": {
     "en": "Support for IP discovery. Support for L510 and L900"
+  },
+  "2.1.1": {
+    "en": "Fix list devices screen for new drivers"
   }
 }
