@@ -47,7 +47,7 @@ class BaseDriver extends Driver {
    */
   async onPairListDevices() {
     const devices = await this.getTapoDevices();
-    this.log('DEVICES:', devices);
+    this.log('DEVICES:', JSON.stringify(devices));
     return this.filter(devices)
       .map(this.#mapDeviceProperties);
   }

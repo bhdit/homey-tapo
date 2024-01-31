@@ -16,5 +16,8 @@
   },
   "2.1.1": {
     "en": "Fix list devices screen for new drivers"
+  },
+  "2.1.2": {
+    "en": "Improve ddebug"
   }
 }
