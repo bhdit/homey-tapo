@@ -22,11 +22,34 @@
     "small": "/assets/images/small.png",
     "large": "/assets/images/large.jpg"
   },
+  "support": "mailto:tudor.popescu@bhdit.com",
+  "homeyCommunityTopicId": 102707,
   "author": {
-    "name": "Donkfather",
-    "email": "donkfatheroriginal@gmail.com"
+    "name": "Tudor Popescu",
+    "email": "tudor.popescu@bhdit.com"
   },
   "drivers": [
+    {
+      "name": {
+        "en": "L510"
+      },
+      "class": "light",
+      "capabilities": [
+        "onoff",
+        "dim"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/L510/assets/images/small.png",
+        "large": "/drivers/L510/assets/images/large.png"
+      },
+      "id": "L510"
+    },
     {
       "name": {
         "en": "L930 Smart Led Strip"
@@ -195,6 +218,21 @@
             40,
             135,
             186
+          ],
+          [
+            180,
+            176,
+            36
+          ],
+          [
+            176,
+            167,
+            185
+          ],
+          [
+            108,
+            90,
+            176
           ]
         ]
       }

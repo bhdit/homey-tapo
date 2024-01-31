@@ -10,11 +10,13 @@ class MyApp extends Homey.App {
    * onInit is called when the app is initialized.
    */
   async onInit() {
-    this.log('MyApp has been initialized');
     const debug = this.homey.settings.get('debug');
-    this.log('debug', this.homey.settings.get('debug'));
     if (debug === 'enabled') {
-      inspector.open(9229, '0.0.0.0');
+      try {
+        inspector.open(9229, '0.0.0.0');
+      } catch (err) {
+        this.log(`Couldn't start inspector: ${err.message}`);
+      }
     }
   }
 

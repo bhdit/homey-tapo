@@ -32,6 +32,10 @@
         <input class="homey-form-input" id="password" type="password" value=""/>
     </div>
     <div class="homey-form-group">
+        <label class="homey-form-label" for="ipaddress">Find Device IP</label>
+        <input class="homey-form-input" id="ipaddress" placeholder="192.168.0.10" type="text" value=""/>
+    </div>
+    <div class="homey-form-group">
         <label for="debug" class="homey-form-checkbox">
             <input class="homey-form-checkbox-input" type="checkbox" name="debug" id="debug" value="enabled"/>
             <span class="homey-form-checkbox-checkmark"></span>
@@ -42,45 +46,60 @@
 
 <button id="save" class="homey-button-primary-full">Save changes</button>
 <script type="text/javascript">
-  function onHomeyReady(Homey) {
-    const usernameElement = document.getElementById('username');
-    const passwordElement = document.getElementById('password');
-    const debugElement = document.getElementById('debug');
-    const saveElement = document.getElementById('save');
-
-    Homey.get('username', function(err, username) {
-      if (err) return Homey.alert(err);
-      usernameElement.value = username;
+  function initializeFields(fields) {
+    fields.forEach(field => {
+      const element = document.getElementById(field);
+      Homey.get(field, (err, value) => {
+        if (err) return Homey.alert(err);
+        switch (element.type) {
+          case 'text':
+          case 'password':
+            element.value = value;
+            break;
+          case 'checkbox':
+            if (value === 'enabled') element.checked = true;
+            break;
+          default:
+            Homey.alert(`GET: Case [${element.type} not found]`);
+        }
+      });
     });
+  }
 
-    Homey.get('password', function(err, password) {
-      if (err) return Homey.alert(err);
-      passwordElement.value = password;
-    });
-
-    Homey.get('debug', function(err, debug) {
-      if (err) return Homey.alert(err);
-      if (debug) {
-        debugElement.checked = true;
+  function setFields(fields) {
+    fields.forEach(field => {
+      const element = document.getElementById(field);
+      switch (element.type) {
+        case 'text':
+        case 'checkbox':
+        case 'ipaddress':
+          Homey.set(field, element.value, function(err) {
+            if (err) return Homey.alert(err);
+          });
+          break;
+        case 'password':
+          if (element.value) {
+            Homey.set('password', element.value, function(err) {
+              if (err) return Homey.alert(err);
+            });
+          } else {
+            Homey.unset('password', function(err) {
+              if (err) return Homey.alert(err);
+            });
+          }
+          break;
+        default:
+          Homey.alert(`SET: Case [${element.type} not found]`);
       }
     });
+  }
+
+  function onHomeyReady(Homey) {
+    const saveElement = document.getElementById('save');
+    initializeFields(['username', 'password', 'ipaddress', 'debug']);
 
     saveElement.addEventListener('click', function(e) {
-      Homey.set('username', usernameElement.value, function(err) {
-        if (err) return Homey.alert(err);
-      });
-      Homey.set('debug', debugElement.value, function(err) {
-        if (err) return Homey.alert(err);
-      });
-      if (passwordElement.value) {
-        Homey.set('password', passwordElement.value, function(err) {
-          if (err) return Homey.alert(err);
-        });
-      } else {
-        Homey.unset('password', function(err) {
-          if (err) return Homey.alert(err);
-        });
-      }
+      setFields(['username', 'password', 'ipaddress', 'debug']);
     });
 
     Homey.ready();

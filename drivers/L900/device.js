@@ -3,22 +3,18 @@
 const { Device } = require('homey');
 const tapoApi = require('tp-link-tapo-connect/dist/api');
 
-class L930Device extends Device {
-
-  #deviceApi;
+class L900Device extends Device {
 
   /**
    * onInit is called when the device is initialized.
    */
   async onInit() {
-    this.log('MyDevice has been initialized');
-
     this.deviceApi = await tapoApi.loginDeviceByIp(
       this.homey.settings.get('username'),
       this.homey.settings.get('password'),
       this.getStore().ip,
     );
-    await this.#updateStateFromDevice();
+    await this.updateStateFromDevice();
 
     // VARIABLES GENERIC
     this.pollingFailures = 0;
@@ -30,27 +26,8 @@ class L930Device extends Device {
         opts,
       });
       await this.deviceApi.setBrightness(Math.trunc(value * 100));
-      await this.#updateStateFromDevice();
+      await this.updateStateFromDevice();
     });
-
-    this.registerCapabilityListener('light_temperature', async (value) => {
-      this.log('light_temperature', 6500 - (4000 * value));
-      const kelvin = 6500 - (4000 * value);
-      await this.deviceApi.setColour(`${kelvin}k`);
-      await this.#updateStateFromDevice();
-    });
-
-    this.registerCapabilityListener('tapo_effect', async (value) => {
-      this.log('light_effect', value);
-      await this.deviceApi.setLightingEffect(value);
-      await this.#updateStateFromDevice();
-    });
-
-    this.registerCapabilityListener('light_mode', async (...value) => {
-      this.log('light_mode', value);
-      await this.#updateStateFromDevice();
-    });
-
     this.registerMultipleCapabilityListener(['light_hue', 'light_saturation'], async (valueObj, optsObj) => {
       const {
         light_hue: lightHue,
@@ -77,7 +54,6 @@ class L930Device extends Device {
         },
       });
     }, 500);
-    await this.#updateStateFromDevice();
   }
 
   async #onCapabilityOnoff(state) {
@@ -89,6 +65,12 @@ class L930Device extends Device {
     }
   }
 
+  async updateStateFromDevice() {
+    const deviceState = await this.deviceApi.getDeviceInfo();
+    await this.setCapabilityValue('dim', deviceState.brightness <= 0 ? 0 : deviceState.brightness / 100);
+    await this.setCapabilityValue('onoff', deviceState.device_on);
+  }
+
   /**
    * onAdded is called when the user adds the device, called just after pairing.
    */
@@ -96,7 +78,7 @@ class L930Device extends Device {
     this.log('MyDevice has been added');
     this.homey.setTimeout(async () => {
       try {
-        await this.#updateStateFromDevice();
+        await this.updateStateFromDevice();
       } catch (error) {
         this.error(error);
       }
@@ -135,15 +117,6 @@ class L930Device extends Device {
     this.log('MyDevice has been deleted');
   }
 
-  async #updateStateFromDevice() {
-    const deviceState = await this.deviceApi.getDeviceInfo();
-    await this.setCapabilityValue('dim', deviceState.brightness <= 0 ? 0 : deviceState.brightness / 100);
-    await this.setCapabilityValue('light_temperature', (deviceState.color_temp - 2500) / 4000 || 0);
-    await this.setCapabilityValue('light_hue', Math.trunc(360 / deviceState.hue));
-    await this.setCapabilityValue('light_saturation', Math.trunc(deviceState.saturation / 100));
-    await this.setCapabilityValue('onoff', deviceState.device_on);
-  }
-
 }
 
-module.exports = L930Device;
+module.exports = L900Device;

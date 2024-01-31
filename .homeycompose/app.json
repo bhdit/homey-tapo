@@ -21,8 +21,10 @@
     "small": "/assets/images/small.png",
     "large": "/assets/images/large.jpg"
   },
+  "support": "mailto:tudor.popescu@bhdit.com",
+  "homeyCommunityTopicId": 102707,
   "author": {
-    "name": "Donkfather",
-    "email": "donkfatheroriginal@gmail.com"
+    "name": "Tudor Popescu",
+    "email": "tudor.popescu@bhdit.com"
   }
 }
