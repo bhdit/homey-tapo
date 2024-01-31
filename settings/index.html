@@ -42,6 +42,7 @@
             <span class="homey-form-checkbox-text">Enable debug</span>
         </label>
     </div>
+    <p style="text-align: center">Please restart app after saving.</p>
 </fieldset>
 
 <button id="save" class="homey-button-primary-full">Save changes</button>
@@ -70,8 +71,12 @@
     fields.forEach(field => {
       const element = document.getElementById(field);
       switch (element.type) {
-        case 'text':
         case 'checkbox':
+          Homey.set(field, element.checked ? element.value : false, function(err) {
+            if (err) return Homey.alert(err);
+          });
+          break;
+        case 'text':
         case 'ipaddress':
           Homey.set(field, element.value, function(err) {
             if (err) return Homey.alert(err);
@@ -99,7 +104,9 @@
     initializeFields(['username', 'password', 'ipaddress', 'debug']);
 
     saveElement.addEventListener('click', function(e) {
+      document.getElementById('save').disabled = true;
       setFields(['username', 'password', 'ipaddress', 'debug']);
+      document.getElementById('save').disabled = false;
     });
 
     Homey.ready();

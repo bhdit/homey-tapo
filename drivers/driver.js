@@ -47,6 +47,7 @@ class BaseDriver extends Driver {
    */
   async onPairListDevices() {
     const devices = await this.getTapoDevices();
+    this.log('DEVICES:', devices);
     return this.filter(devices)
       .map(this.#mapDeviceProperties);
   }
@@ -58,7 +59,7 @@ class BaseDriver extends Driver {
   async getTapoDevices() {
     const devices = [];
     if (!this.#TAPO_PASSWORD || !this.#TAPO_USERNAME) {
-      throw Error('Tapo Username and Password must be set in settings.');
+      throw Error('Tapo Username, Password must be set in settings. Restart app after save.');
     }
     if (this.#IP_ADDRESS) {
       const tapoDevice = await tapoApi.loginDeviceByIp(this.#TAPO_USERNAME, this.#TAPO_PASSWORD, this.#IP_ADDRESS);
