@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.bhdit.tapo",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "platforms": [
@@ -49,6 +49,29 @@
         "large": "/drivers/L510/assets/images/large.png"
       },
       "id": "L510"
+    },
+    {
+      "name": {
+        "en": "L900"
+      },
+      "class": "light",
+      "capabilities": [
+        "onoff",
+        "dim",
+        "light_hue",
+        "light_saturation"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/L900/assets/images/small.png",
+        "large": "/drivers/L900/assets/images/large.png"
+      },
+      "id": "L900"
     },
     {
       "name": {

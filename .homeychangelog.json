@@ -10,5 +10,8 @@
   },
   "2.0.1": {
     "en": "New images and icons"
+  },
+  "2.1.0": {
+    "en": "Support for IP discovery. Support for L510 and L900"
   }
 }
