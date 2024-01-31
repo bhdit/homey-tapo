@@ -48,6 +48,19 @@
         "small": "/drivers/L510/assets/images/small.png",
         "large": "/drivers/L510/assets/images/large.png"
       },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
       "id": "L510"
     },
     {
@@ -71,11 +84,24 @@
         "small": "/drivers/L900/assets/images/small.png",
         "large": "/drivers/L900/assets/images/large.png"
       },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
       "id": "L900"
     },
     {
       "name": {
-        "en": "L930 Smart Led Strip"
+        "en": "L930"
       },
       "class": "light",
       "capabilities": [
