@@ -19,5 +19,8 @@
   },
   "2.1.2": {
     "en": "Improve ddebug"
+  },
+  "2.2.0": {
+    "en": "Improve debug logs"
   }
 }

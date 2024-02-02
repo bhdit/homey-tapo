@@ -77,21 +77,10 @@
           });
           break;
         case 'text':
-        case 'ipaddress':
+        case 'password':
           Homey.set(field, element.value, function(err) {
             if (err) return Homey.alert(err);
           });
-          break;
-        case 'password':
-          if (element.value) {
-            Homey.set('password', element.value, function(err) {
-              if (err) return Homey.alert(err);
-            });
-          } else {
-            Homey.unset('password', function(err) {
-              if (err) return Homey.alert(err);
-            });
-          }
           break;
         default:
           Homey.alert(`SET: Case [${element.type} not found]`);
