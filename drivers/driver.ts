@@ -1,13 +1,26 @@
-'use strict';
+import Homey from 'homey';
+import { loginDeviceByIp, TapoDeviceInfo } from 'tp-link-tapo-connect';
+import uniqBy from 'lodash.uniqby';
 
-const { Driver } = require('homey');
-const tapoApi = require('tp-link-tapo-connect/dist/api');
+type Device = {
+  name: string,
+  data: {
+    id: string,
+    mac: string,
+  },
+  store: {
+    ip: string,
+    deviceId: string,
+    mac: string,
+  },
+}
 
-class BaseDriver extends Driver {
+export default class GenericDriver extends Homey.Driver {
 
-  #IP_ADDRESS;
-  #TAPO_USERNAME;
-  #TAPO_PASSWORD;
+  #IP_ADDRESS = ''
+  #TAPO_USERNAME = ''
+  #TAPO_PASSWORD = ''
+  filterStrings: string[] = [];
 
   /**
    * onInit is called when the driver is initialized.
@@ -25,12 +38,12 @@ class BaseDriver extends Driver {
     device_id: deviceId,
     ip,
     mac,
-  }) {
+  }: TapoDeviceInfo): Device {
     return {
       name: nickname,
       data: {
-        id: model,
-        deviceId,
+        id: deviceId,
+        mac,
       },
       store: {
         ip,
@@ -46,33 +59,31 @@ class BaseDriver extends Driver {
    * This should return an array with the data of devices that are available for pairing.
    */
   async onPairListDevices() {
-    const devices = await this.getTapoDevices();
+    const devices = uniqBy(await this.getTapoDevices(), 'device_id');
     this.log('DEVICES:', JSON.stringify(devices));
     return this.filter(devices)
       .map(this.#mapDeviceProperties);
   }
 
-  filter(devices) {
-    return devices;
-  }
-
-  async getTapoDevices() {
-    const devices = [];
+  async getTapoDevices(): Promise<TapoDeviceInfo[]> {
+    const devices: (undefined | void | TapoDeviceInfo | (undefined | void | TapoDeviceInfo)[])[] = [];
     if (!this.#TAPO_PASSWORD || !this.#TAPO_USERNAME) {
       throw Error('Tapo Username, Password must be set in settings. Restart app after save.');
     }
     if (this.#IP_ADDRESS) {
-      const tapoDevice = await tapoApi.loginDeviceByIp(this.#TAPO_USERNAME, this.#TAPO_PASSWORD, this.#IP_ADDRESS);
-      devices.push(await tapoDevice.getDeviceInfo());
+      const tapoDevice = await loginDeviceByIp(this.#TAPO_USERNAME, this.#TAPO_PASSWORD, this.#IP_ADDRESS).catch(this.error);
+      this.log(this.#IP_ADDRESS, tapoDevice);
+      devices.push(await tapoDevice?.getDeviceInfo().catch(this.error));
     }
     const discoveredDevices = this.homey.discovery.getStrategy('tapomac')
       .getDiscoveryResults();
     this.log({ discoveredDevices });
-    if (Object.values(discoveredDevices).length > 0) {
+    if (Object.keys(discoveredDevices).length > 0) {
       devices.push(await Promise.all(
         Object.values(discoveredDevices)
           .map(async (device) => {
-            const tapoDevice = await tapoApi.loginDeviceByIp(this.#TAPO_USERNAME, this.#TAPO_PASSWORD, device.address);
+            const tapoDevice = await loginDeviceByIp(this.#TAPO_USERNAME, this.#TAPO_PASSWORD, device.address);
+            this.log(await tapoDevice.getDeviceInfo());
             return tapoDevice.getDeviceInfo();
           }),
       ));
@@ -80,9 +91,13 @@ class BaseDriver extends Driver {
       throw Error('MAC discovery failed. Enter device IP in settings.');
     }
 
-    return devices.flat();
+    return devices.flat().filter(Boolean) as TapoDeviceInfo[];
+  }
+
+  filter(devices: TapoDeviceInfo[]) {
+    return !this.filterStrings ? devices : devices.filter((device) => this.filterStrings.includes(device.model));
   }
 
 }
 
-module.exports = BaseDriver;
+module.exports = GenericDriver

@@ -16,9 +16,3 @@ allow for an easy and efficient set up process.
 Currently, the app utilizes MAC discovery. If a device's MAC isn't on the list, you can
 manually input its IP address in the settings. This approach is part of an effort
 to minimize reliance on cloud services.
-
-New and in testing drivers:
- - Device L900
- - Device L510
- - Discover by IP set in settings
-

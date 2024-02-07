@@ -61,7 +61,25 @@
           "template": "add_devices"
         }
       ],
-      "id": "L510"
+      "energy": {},
+      "discovery": "tapomac",
+      "id": "L510",
+      "settings": [
+        {
+          "id": "ipaddress",
+          "type": "text",
+          "label": {
+            "en": "IP Address"
+          },
+          "value": "",
+          "placeholder": {
+            "en": "192.168.1.10"
+          },
+          "hint": {
+            "en": "The ip address of the user."
+          }
+        }
+      ]
     },
     {
       "name": {
@@ -97,7 +115,24 @@
           "template": "add_devices"
         }
       ],
-      "id": "L900"
+      "discovery": "tapomac",
+      "id": "L900",
+      "settings": [
+        {
+          "id": "ipaddress",
+          "type": "text",
+          "label": {
+            "en": "IP Address"
+          },
+          "value": "",
+          "placeholder": {
+            "en": "192.168.1.10"
+          },
+          "hint": {
+            "en": "The ip address of the user."
+          }
+        }
+      ]
     },
     {
       "name": {
@@ -175,7 +210,78 @@
           "template": "add_devices"
         }
       ],
-      "id": "L930"
+      "discovery": "tapomac",
+      "id": "L930",
+      "settings": [
+        {
+          "id": "ipaddress",
+          "type": "text",
+          "label": {
+            "en": "IP Address"
+          },
+          "value": "",
+          "placeholder": {
+            "en": "192.168.1.10"
+          },
+          "hint": {
+            "en": "The ip address of the user."
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "en": "P115"
+      },
+      "class": "socket",
+      "capabilities": [
+        "onoff",
+        "measure_power"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/P115/assets/images/small.png",
+        "large": "/drivers/P115/assets/images/large.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "energy": {
+        "cumulative": true
+      },
+      "discovery": "tapomac",
+      "id": "P115",
+      "settings": [
+        {
+          "id": "ipaddress",
+          "type": "text",
+          "label": {
+            "en": "IP Address"
+          },
+          "value": "",
+          "placeholder": {
+            "en": "192.168.1.10"
+          },
+          "hint": {
+            "en": "The ip address of the user."
+          }
+        }
+      ]
     }
   ],
   "capabilities": {
@@ -302,6 +408,11 @@
       "type": "mac",
       "mac": {
         "manufacturer": [
+          [
+            60,
+            82,
+            161
+          ],
           [
             40,
             135,

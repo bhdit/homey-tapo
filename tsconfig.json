@@ -2,6 +2,18 @@
   "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
     "allowJs": true,
-    "outDir": ".homeybuild/"
-  }
+    "outDir": ".homeybuild/",
+    "sourceMap": true,
+    "baseUrl": "./",
+    "paths": {
+      "*": [
+        "drivers/*"
+      ]
+    },
+  },
+  "include": [
+    "drivers/**/*",
+    "drivers/*",
+    "./*"
+  ]
 }

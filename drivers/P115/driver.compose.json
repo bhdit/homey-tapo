@@ -1,16 +1,11 @@
 {
   "name": {
-    "en": "L930"
+    "en": "P115"
   },
-  "class": "light",
+  "class": "socket",
   "capabilities": [
     "onoff",
-    "dim",
-    "light_mode",
-    "light_temperature",
-    "light_hue",
-    "light_saturation",
-    "tapo_effect"
+    "measure_power"
   ],
   "platforms": [
     "local"
@@ -35,5 +30,8 @@
       "template": "add_devices"
     }
   ],
+  "energy": {
+    "cumulative": true
+  },
   "discovery": "tapomac"
 }
