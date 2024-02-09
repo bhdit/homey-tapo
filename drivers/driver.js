@@ -67,6 +67,7 @@ class BaseDriver extends Driver {
     }
     const discoveredDevices = this.homey.discovery.getStrategy('tapomac')
       .getDiscoveryResults();
+    this.log({ discoveredDevices });
     if (Object.values(discoveredDevices).length > 0) {
       devices.push(await Promise.all(
         Object.values(discoveredDevices)
