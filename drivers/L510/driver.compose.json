@@ -30,6 +30,5 @@
       "template": "add_devices"
     }
   ],
-  "energy": {},
-  "discovery": "tapomac"
+  "energy": {}
 }

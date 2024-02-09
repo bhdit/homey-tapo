@@ -6,7 +6,7 @@ export = class extends GenericDevice {
    * onInit is called when the device is initialized.
    */
   async register() {
-    this.log('MyDevice P115Device has been initialized');
+    this.log('MyDevice P110Device has been initialized');
     this.registerCapabilityListener('onoff', async (state) => {
       this.log('onCapabilityOnoff state', state);
       if (state) {

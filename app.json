@@ -15,7 +15,8 @@
     "en": "Local Tapo devices communication"
   },
   "category": [
-    "lights"
+    "lights",
+    "energy"
   ],
   "permissions": [],
   "images": {
@@ -62,7 +63,6 @@
         }
       ],
       "energy": {},
-      "discovery": "tapomac",
       "id": "L510",
       "settings": [
         {
@@ -115,7 +115,6 @@
           "template": "add_devices"
         }
       ],
-      "discovery": "tapomac",
       "id": "L900",
       "settings": [
         {
@@ -210,8 +209,67 @@
           "template": "add_devices"
         }
       ],
-      "discovery": "tapomac",
       "id": "L930",
+      "settings": [
+        {
+          "id": "ipaddress",
+          "type": "text",
+          "label": {
+            "en": "IP Address"
+          },
+          "value": "",
+          "placeholder": {
+            "en": "192.168.1.10"
+          },
+          "hint": {
+            "en": "The ip address of the user."
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "en": "P110"
+      },
+      "class": "socket",
+      "capabilities": [
+        "onoff",
+        "measure_power"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/P110/assets/images/small.png",
+        "large": "/drivers/P110/assets/images/large.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "ip_lookup"
+          }
+        },
+        {
+          "id": "ip_lookup",
+          "template": "ip_lookup",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "energy": {
+        "cumulative": true
+      },
+      "id": "P110",
       "settings": [
         {
           "id": "ipaddress",
@@ -264,7 +322,6 @@
       "energy": {
         "cumulative": true
       },
-      "discovery": "tapomac",
       "id": "P115",
       "settings": [
         {
@@ -432,6 +489,11 @@
             108,
             90,
             176
+          ],
+          [
+            92,
+            98,
+            139
           ]
         ]
       }

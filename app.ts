@@ -20,6 +20,8 @@ export default class MyApp extends Homey.App {
         this.log(`Couldn't start inspector: ${err.message}`);
       }
     }
+    // eslint-disable-next-line no-debugger
+    debugger;
   }
 
 }

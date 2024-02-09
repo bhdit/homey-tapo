@@ -1,6 +1,6 @@
 {
   "name": {
-    "en": "P115"
+    "en": "P110"
   },
   "class": "socket",
   "capabilities": [
@@ -21,6 +21,13 @@
     {
       "id": "list_devices",
       "template": "list_devices",
+      "navigation": {
+        "next": "ip_lookup"
+      }
+    },
+    {
+      "id": "ip_lookup",
+      "template": "ip_lookup",
       "navigation": {
         "next": "add_devices"
       }

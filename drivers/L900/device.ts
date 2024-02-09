@@ -1,7 +1,7 @@
 import { TapoDeviceLightInfo } from 'tp-link-tapo-connect/dist/types';
 import GenericDevice from '../device';
 
-export default class L900Device extends GenericDevice {
+export = class L900Device extends GenericDevice {
 
   /**
    * onInit is called when the device is initialized.

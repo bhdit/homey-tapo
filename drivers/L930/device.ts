@@ -1,7 +1,7 @@
 import { TapoDeviceLightInfo } from 'tp-link-tapo-connect/dist/types';
 import GenericDevice from '../device';
 
-export default class L930Device extends GenericDevice {
+export = class L930Device extends GenericDevice {
 
   async register() {
     this.registerCapabilityListener('onoff', async (state) => {
@@ -89,5 +89,3 @@ export default class L930Device extends GenericDevice {
   }
 
 }
-
-module.exports = L930Device;

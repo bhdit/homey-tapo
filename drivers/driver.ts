@@ -15,7 +15,7 @@ type Device = {
   },
 }
 
-export default class GenericDriver extends Homey.Driver {
+export = class GenericDriver extends Homey.Driver {
 
   #IP_ADDRESS = ''
   #TAPO_USERNAME = ''
@@ -75,8 +75,8 @@ export default class GenericDriver extends Homey.Driver {
       this.log(this.#IP_ADDRESS, tapoDevice);
       devices.push(await tapoDevice?.getDeviceInfo().catch(this.error));
     }
-    const discoveredDevices = this.homey.discovery.getStrategy('tapomac')
-      .getDiscoveryResults();
+    const discoveryStrategy = this.homey.discovery.getStrategy('tapomac');
+    const discoveredDevices = discoveryStrategy.getDiscoveryResults();
     this.log({ discoveredDevices });
     if (Object.keys(discoveredDevices).length > 0) {
       devices.push(await Promise.all(
@@ -99,5 +99,3 @@ export default class GenericDriver extends Homey.Driver {
   }
 
 }
-
-module.exports = GenericDriver

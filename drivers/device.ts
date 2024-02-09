@@ -3,7 +3,7 @@ import { loginDeviceByIp, TapoDeviceInfo } from 'tp-link-tapo-connect';
 
 type TapoApi = Awaited<ReturnType<typeof loginDeviceByIp>>
 
-export default class GenericDevice extends Homey.Device {
+export = class GenericDevice extends Homey.Device {
 
   deviceApi: TapoApi | undefined;
   deviceInfo: TapoDeviceInfo | void = undefined;
@@ -22,7 +22,6 @@ export default class GenericDevice extends Homey.Device {
     });
     await this.setupPolling().catch(this.error);
     await this.register();
-    this.setAvailable().catch(this.error);
   }
 
   async register(): Promise<void> { /* Register capabilities */ }
@@ -47,6 +46,7 @@ export default class GenericDevice extends Homey.Device {
       try {
         await this.updateStateFromDevice().catch(this.error);
       } catch (error) {
+        this.log('GOT ERROR', error);
         this.pollingFailures += 1;
         this.error(error);
       }
@@ -83,4 +83,3 @@ export default class GenericDevice extends Homey.Device {
   }
 
 }
-module.exports = GenericDevice

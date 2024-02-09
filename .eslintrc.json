@@ -8,8 +8,6 @@
   ],
   "extends": [
     "athom/homey-app",
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
   "root": true,
@@ -21,7 +19,8 @@
       "rules": {
         "node/no-missing-import": "off",
         "import/no-unresolved": "off",
-        "import/extensions": "off"
+        "import/extensions": "off",
+        "@typescript-eslint/no-explicit-any": "off"
       }
     }
   ]

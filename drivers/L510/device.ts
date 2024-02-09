@@ -2,7 +2,7 @@ import { TapoDeviceLightInfo } from 'tp-link-tapo-connect/dist/types';
 
 import GenericDevice from '../device';
 
-export default class L510Device extends GenericDevice {
+export = class L510Device extends GenericDevice {
 
   /**
    * onInit is called when the device is initialized.
@@ -16,7 +16,7 @@ export default class L510Device extends GenericDevice {
         await this.deviceApi?.turnOff();
       }
     });
-    this.registerCapabilityListener('dim', async (value: number, opts: any) => {
+    this.registerCapabilityListener('dim', async (value: number, opts: { [key: string]: any }) => {
       this.log('dim', {
         value: Math.trunc(value * 100),
         opts,

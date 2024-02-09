@@ -14,7 +14,8 @@
     "en": "Local Tapo devices communication"
   },
   "category": [
-    "lights"
+    "lights",
+    "energy"
   ],
   "permissions": [],
   "images": {

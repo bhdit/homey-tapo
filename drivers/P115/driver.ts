@@ -1,7 +1,7 @@
 import GenericDriver from '../driver';
 
-export default class P115Driver extends GenericDriver {
+export = class extends GenericDriver {
 
-  filterStrings = ['P115'];
+  filterStrings = ['P110'];
 
 }
