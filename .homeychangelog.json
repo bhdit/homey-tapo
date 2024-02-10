@@ -28,5 +28,8 @@
   },
   "3.0.0": {
     "en": "Better functionality. Ip address lookup during discovery"
+  },
+  "3.0.1": {
+    "en": "Update images"
   }
 }
