@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "main": "app.js",
   "scripts": {
-    "build": "tsc",
-    "lint": "eslint --ext .ts,.js --ignore-path .gitignore ."
+    "build": "npm run setup && tsc",
+    "lint": "eslint --ext .ts,.js --ignore-path .gitignore .",
+    "setup": "./lib/scripts/copy-pair-views.sh"
   },
   "devDependencies": {
     "@tsconfig/node16": "^16.1.1",

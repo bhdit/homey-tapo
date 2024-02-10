@@ -19,15 +19,14 @@
   },
   "pair": [
     {
-      "id": "list_devices",
-      "template": "list_devices",
+      "id": "ip_lookup",
       "navigation": {
-        "next": "ip_lookup"
+        "next": "list_devices"
       }
     },
     {
-      "id": "ip_lookup",
-      "template": "ip_lookup",
+      "id": "list_devices",
+      "template": "list_devices",
       "navigation": {
         "next": "add_devices"
       }

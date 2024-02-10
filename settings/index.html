@@ -1,105 +1,100 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <!-- ... -->
-    <script
-            type="text/javascript"
-            src="/homey.js"
-            data-origin="settings"
-    ></script>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-<header class="homey-header">
-    <p class="homey-subtitle" data-i18n="settings.subtitle">
-        <!-- This field will also be translated -->
-    </p>
-</header>
 
-<fieldset class="homey-form-fieldset">
+<head>
+  <!-- ... -->
+  <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <header class="homey-header">
+    <p class="homey-subtitle" data-i18n="settings.subtitle">
+      <!-- This field will also be translated -->
+    </p>
+  </header>
+
+  <fieldset class="homey-form-fieldset">
     <legend class="homey-form-legend">Tapo account</legend>
 
     <div class="homey-form-group">
-        <label class="homey-form-label" for="username">Username</label>
-        <input class="homey-form-input" id="username" type="text" value=""/>
+      <label class="homey-form-label" for="username">Username</label>
+      <input class="homey-form-input" id="username" type="text" value="" />
     </div>
     <div class="homey-form-group">
-        <label class="homey-form-label" for="password">Password</label>
-        <input class="homey-form-input" id="password" type="password" value=""/>
+      <label class="homey-form-label" for="password">Password</label>
+      <input class="homey-form-input" id="password" type="password" value="" />
     </div>
     <div class="homey-form-group">
-        <label class="homey-form-label" for="ipaddress">Find Device IP</label>
-        <input class="homey-form-input" id="ipaddress" placeholder="192.168.0.10" type="text" value=""/>
-    </div>
-    <div class="homey-form-group">
-        <label for="debug" class="homey-form-checkbox">
-            <input class="homey-form-checkbox-input" type="checkbox" name="debug" id="debug" value="enabled"/>
-            <span class="homey-form-checkbox-checkmark"></span>
-            <span class="homey-form-checkbox-text">Enable debug</span>
-        </label>
+      <label for="debug" class="homey-form-checkbox">
+        <input class="homey-form-checkbox-input" type="checkbox" name="debug" id="debug" value="enabled" />
+        <span class="homey-form-checkbox-checkmark"></span>
+        <span class="homey-form-checkbox-text">Enable debug</span>
+      </label>
     </div>
     <p style="text-align: center">Please restart app after saving.</p>
-</fieldset>
+  </fieldset>
 
-<button id="save" class="homey-button-primary-full">Save changes</button>
-<script type="text/javascript">
-  function initializeFields(fields) {
-    fields.forEach(field => {
-      const element = document.getElementById(field);
-      Homey.get(field, (err, value) => {
-        if (err) return Homey.alert(err);
+  <button id="save" class="homey-button-primary-full">Save changes</button>
+  <script type="text/javascript">
+    function initializeFields(fields) {
+      fields.forEach(field => {
+        const element = document.getElementById(field);
+        Homey.get(field, (err, value) => {
+          if (err) return Homey.alert(err);
+          switch (element.type) {
+            case 'text':
+            case 'password':
+              element.value = value;
+              break;
+            case 'checkbox':
+              if (value === 'enabled') element.checked = true;
+              break;
+            default:
+              Homey.alert(`GET: Case [${element.type} not found]`);
+          }
+        });
+      });
+    }
+
+    function setFields(fields) {
+      fields.forEach(field => {
+        const element = document.getElementById(field);
         switch (element.type) {
+          case 'checkbox':
+            Homey.set(field, element.checked ? element.value : false, function (err) {
+              if (err) return Homey.alert(err);
+            });
+            break;
           case 'text':
           case 'password':
-            element.value = value;
-            break;
-          case 'checkbox':
-            if (value === 'enabled') element.checked = true;
+            Homey.set(field, element.value, function (err) {
+              if (err) return Homey.alert(err);
+            });
             break;
           default:
-            Homey.alert(`GET: Case [${element.type} not found]`);
+            Homey.alert(`SET: Case [${element.type} not found]`);
         }
       });
-    });
-  }
+    }
 
-  function setFields(fields) {
-    fields.forEach(field => {
-      const element = document.getElementById(field);
-      switch (element.type) {
-        case 'checkbox':
-          Homey.set(field, element.checked ? element.value : false, function(err) {
-            if (err) return Homey.alert(err);
-          });
-          break;
-        case 'text':
-        case 'password':
-          Homey.set(field, element.value, function(err) {
-            if (err) return Homey.alert(err);
-          });
-          break;
-        default:
-          Homey.alert(`SET: Case [${element.type} not found]`);
-      }
-    });
-  }
+    function onHomeyReady(Homey) {
+      const saveElement = document.getElementById('save');
+      initializeFields(['username', 'password', 'debug']);
 
-  function onHomeyReady(Homey) {
-    const saveElement = document.getElementById('save');
-    initializeFields(['username', 'password', 'ipaddress', 'debug']);
+      saveElement.addEventListener('click', function (e) {
+        document.getElementById('save').disabled = true;
+        setFields(['username', 'password', 'debug']);
+        document.getElementById('save').disabled = false;
+      });
 
-    saveElement.addEventListener('click', function(e) {
-      document.getElementById('save').disabled = true;
-      setFields(['username', 'password', 'ipaddress', 'debug']);
-      document.getElementById('save').disabled = false;
-    });
-
-    Homey.ready();
-  }
-</script>
+      Homey.ready();
+    }
+  </script>
 </body>
+
 </html>

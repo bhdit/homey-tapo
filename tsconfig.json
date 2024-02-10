@@ -5,15 +5,9 @@
       "esnext",
       "dom"
     ],
-    "target": "esnext",
     "outDir": ".homeybuild/",
     "sourceMap": true,
-    "baseUrl": "./",
-    "paths": {
-      "*": [
-        "drivers/*"
-      ]
-    },
+    "target": "es2022",
   },
   "include": [
     "drivers/**/*",

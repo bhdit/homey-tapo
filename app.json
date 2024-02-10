@@ -23,11 +23,21 @@
     "small": "/assets/images/small.png",
     "large": "/assets/images/large.jpg"
   },
-  "support": "mailto:tudor.popescu@bhdit.com",
+  "support": "https://community.homey.app/t/app-pro-tapo/102707",
   "homeyCommunityTopicId": 102707,
   "author": {
     "name": "Tudor Popescu",
     "email": "tudor.popescu@bhdit.com"
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "donkfather"
+      }
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/bhdit/homey-tapo/issues"
   },
   "drivers": [
     {
@@ -51,6 +61,12 @@
       },
       "pair": [
         {
+          "id": "ip_lookup",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
           "id": "list_devices",
           "template": "list_devices",
           "navigation": {
@@ -62,7 +78,6 @@
           "template": "add_devices"
         }
       ],
-      "energy": {},
       "id": "L510",
       "settings": [
         {
@@ -103,6 +118,12 @@
         "large": "/drivers/L900/assets/images/large.png"
       },
       "pair": [
+        {
+          "id": "ip_lookup",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
         {
           "id": "list_devices",
           "template": "list_devices",
@@ -159,6 +180,12 @@
       },
       "pair": [
         {
+          "id": "ip_lookup",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
           "id": "list_devices",
           "template": "list_devices",
           "navigation": {
@@ -197,6 +224,12 @@
         "large": "/drivers/L930/assets/images/large.png"
       },
       "pair": [
+        {
+          "id": "ip_lookup",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
         {
           "id": "list_devices",
           "template": "list_devices",
@@ -248,15 +281,14 @@
       },
       "pair": [
         {
-          "id": "list_devices",
-          "template": "list_devices",
+          "id": "ip_lookup",
           "navigation": {
-            "next": "ip_lookup"
+            "next": "list_devices"
           }
         },
         {
-          "id": "ip_lookup",
-          "template": "ip_lookup",
+          "id": "list_devices",
+          "template": "list_devices",
           "navigation": {
             "next": "add_devices"
           }
@@ -308,6 +340,12 @@
       },
       "pair": [
         {
+          "id": "ip_lookup",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
           "id": "list_devices",
           "template": "list_devices",
           "navigation": {
@@ -319,9 +357,7 @@
           "template": "add_devices"
         }
       ],
-      "energy": {
-        "cumulative": true
-      },
+      "energy": {},
       "id": "P115",
       "settings": [
         {

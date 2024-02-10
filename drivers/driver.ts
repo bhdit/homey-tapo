@@ -17,22 +17,21 @@ type Device = {
 
 export = class GenericDriver extends Homey.Driver {
 
-  #IP_ADDRESS = ''
-  #TAPO_USERNAME = ''
-  #TAPO_PASSWORD = ''
-  filterStrings: string[] = [];
+  protected TAPO_USERNAME = ''
+  protected TAPO_PASSWORD = ''
+  protected filterStrings: string[] = [];
+  protected ipAddresses: string[] = [];
 
   /**
    * onInit is called when the driver is initialized.
    */
   async onInit() {
     this.log('MyDriver has been initialized');
-    this.#TAPO_USERNAME = this.homey.settings.get('username');
-    this.#TAPO_PASSWORD = this.homey.settings.get('password');
-    this.#IP_ADDRESS = this.homey.settings.get('ipaddress');
+    this.TAPO_USERNAME = this.homey.settings.get('username');
+    this.TAPO_PASSWORD = this.homey.settings.get('password');
   }
 
-  #mapDeviceProperties({
+  mapDeviceProperties({
     model,
     nickname,
     device_id: deviceId,
@@ -53,28 +52,61 @@ export = class GenericDriver extends Homey.Driver {
     };
   }
 
-  /**
-   * onPairListDevices is called when a user is adding a device
-   * and the 'list_devices' view is called.
-   * This should return an array with the data of devices that are available for pairing.
-   */
-  async onPairListDevices() {
-    const devices = uniqBy(await this.getTapoDevices(), 'device_id');
-    this.log('DEVICES:', JSON.stringify(devices));
-    return this.filter(devices)
-      .map(this.#mapDeviceProperties);
+  async onPair(session: Homey.Driver.PairSession) {
+    // Show a specific view by ID
+    await session.showView('ip_lookup');
+
+    // Close the pair session
+    await session.done();
+
+    session.setHandler('iplist', async (iplist: string[]) => {
+      console.log('IP List', iplist);
+      const result = this.validateIpAddresses(iplist);
+      this.ipAddresses = iplist;
+      return result;
+    });
+    // Received when a view has changed
+    session.setHandler('showView', async (viewId) => {
+      console.log(`View: ${viewId}`);
+    });
+
+    session.setHandler('list_devices', async () => uniqBy(await this.onPairListDevices(), 'device_id'));
+  }
+
+  private validateIpAddresses(ipAddresses: string[]) {
+    try {
+      if (ipAddresses.length === 0) {
+        return { error: 'No IP addresses provided.' };
+      }
+      ipAddresses.forEach((ipAddress) => {
+        if (!ipAddress.match(/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/g)) {
+          throw Error(`Invalid IP address: ${ipAddress}`);
+        }
+      });
+    } catch (error: any) {
+      return { error: error.message };
+    }
+    return { success: 'IP addresses validated successfully' };
+  }
+
+  protected async getDevicesByIp(): Promise<(TapoDeviceInfo | undefined | void)[]> {
+    const devices = [];
+    devices.push(
+      await Promise.all(this.ipAddresses.map(async (ipAddress) => {
+        const tapoDevice = await loginDeviceByIp(this.TAPO_USERNAME, this.TAPO_PASSWORD, ipAddress).catch(this.error);
+        return tapoDevice?.getDeviceInfo().catch(this.error);
+      })),
+    );
+    return devices.flat();
   }
 
   async getTapoDevices(): Promise<TapoDeviceInfo[]> {
     const devices: (undefined | void | TapoDeviceInfo | (undefined | void | TapoDeviceInfo)[])[] = [];
-    if (!this.#TAPO_PASSWORD || !this.#TAPO_USERNAME) {
+    if (!this.TAPO_PASSWORD || !this.TAPO_USERNAME) {
       throw Error('Tapo Username, Password must be set in settings. Restart app after save.');
     }
-    if (this.#IP_ADDRESS) {
-      const tapoDevice = await loginDeviceByIp(this.#TAPO_USERNAME, this.#TAPO_PASSWORD, this.#IP_ADDRESS).catch(this.error);
-      this.log(this.#IP_ADDRESS, tapoDevice);
-      devices.push(await tapoDevice?.getDeviceInfo().catch(this.error));
-    }
+    devices.push(await this.getDevicesByIp());
+
     const discoveryStrategy = this.homey.discovery.getStrategy('tapomac');
     const discoveredDevices = discoveryStrategy.getDiscoveryResults();
     this.log({ discoveredDevices });
@@ -82,13 +114,11 @@ export = class GenericDriver extends Homey.Driver {
       devices.push(await Promise.all(
         Object.values(discoveredDevices)
           .map(async (device) => {
-            const tapoDevice = await loginDeviceByIp(this.#TAPO_USERNAME, this.#TAPO_PASSWORD, device.address);
+            const tapoDevice = await loginDeviceByIp(this.TAPO_USERNAME, this.TAPO_PASSWORD, device.address);
             this.log(await tapoDevice.getDeviceInfo());
             return tapoDevice.getDeviceInfo();
           }),
       ));
-    } else if (!this.#IP_ADDRESS) {
-      throw Error('MAC discovery failed. Enter device IP in settings.');
     }
 
     return devices.flat().filter(Boolean) as TapoDeviceInfo[];
