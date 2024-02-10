@@ -298,9 +298,11 @@
           "template": "add_devices"
         }
       ],
-      "energy": {
-        "cumulative": true
-      },
+      "repair": [
+        {
+          "id": "repair"
+        }
+      ],
       "id": "P110",
       "settings": [
         {

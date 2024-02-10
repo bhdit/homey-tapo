@@ -1,0 +1,20 @@
+<script>
+    Homey.setTitle("Repair device");
+    Homey.setSubtitle("Enter the IP address of the device to repair.");
+    console.log(Homey)
+    Homey.emit('getIp', {}).then(function (result) {
+        document.getElementById('ipaddress').value = result;
+    })
+
+    function onRepair() {
+        const ipaddress = document.getElementById('ipaddress').value;
+        Homey.emit("repair", ipaddress).then(function () {
+            Homey.done();
+        });
+    }
+</script>
+<div class="homey-form-group">
+    <label for="ipaddress" class="homey-form-label">IP address</label>
+    <input class="homey-form-input" name="ipaddress" id="ipaddress" type="text" value="" placeholder="192.168.1.10" />
+</div>
+<button onclick="onRepair()" class="homey-button-primary-full">Save</button>

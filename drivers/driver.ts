@@ -1,6 +1,7 @@
 import Homey from 'homey';
 import { loginDeviceByIp, TapoDeviceInfo } from 'tp-link-tapo-connect';
 import uniqBy from 'lodash.uniqby';
+import GenericDevice from './device';
 
 type Device = {
   name: string,
@@ -126,6 +127,21 @@ export = class GenericDriver extends Homey.Driver {
 
   filter(devices: TapoDeviceInfo[]) {
     return !this.filterStrings ? devices : devices.filter((device) => this.filterStrings.includes(device.model));
+  }
+
+  async onRepair(session: Homey.Driver.PairSession, device: GenericDevice) {
+    session.setHandler('repair', async (ip: string) => {
+      await device.changeIpAddress(ip);
+    });
+    session.setHandler('getIp', async () => {
+      const ip = await device.getStoreValue('ip');
+      return ip;
+    });
+
+    session.setHandler('disconnect', async () => {
+      // Cleanup
+      console.log('cleanup');
+    });
   }
 
 }

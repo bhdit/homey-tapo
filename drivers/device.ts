@@ -5,6 +5,12 @@ type TapoApi = Awaited<ReturnType<typeof loginDeviceByIp>>
 
 export = class GenericDevice extends Homey.Device {
 
+  async changeIpAddress(ip: string) {
+    await this.setStoreValue('ip', ip);
+    await this.setSettings({ ipaddress: ip });
+    await this.loginDevice();
+  }
+
   deviceApi: TapoApi | undefined;
   deviceInfo: TapoDeviceInfo | void = undefined;
   pollingFailures: number = 0;
@@ -46,9 +52,8 @@ export = class GenericDevice extends Homey.Device {
       try {
         await this.updateStateFromDevice().catch(this.error);
       } catch (error) {
-        this.log('GOT ERROR', error);
         this.pollingFailures += 1;
-        this.error(error);
+        this.error('ERROR during polling', error);
       }
     }, 15000);
 
@@ -66,7 +71,7 @@ export = class GenericDevice extends Homey.Device {
         );
       } catch (error) {
         this.pollingFailures += 1;
-        this.error(error);
+        this.error('ERROR during session refresh', error);
       }
     }, 600000);
   }

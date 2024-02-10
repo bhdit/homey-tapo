@@ -5,7 +5,7 @@
   "scripts": {
     "build": "npm run setup && tsc",
     "lint": "eslint --ext .ts,.js --ignore-path .gitignore .",
-    "setup": "./lib/scripts/copy-pair-views.sh"
+    "setup": "bash ./lib/scripts/copy-pair-views.sh && bash ./lib/scripts/copy-repair-views.sh"
   },
   "devDependencies": {
     "@tsconfig/node16": "^16.1.1",
