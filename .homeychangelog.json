@@ -25,5 +25,8 @@
   },
   "2.3.0": {
     "en": "Add support for L920"
+  },
+  "3.0.0": {
+    "en": "Better functionality. Ip address lookup during discovery"
   }
 }
