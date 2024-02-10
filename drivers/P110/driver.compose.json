@@ -1,11 +1,11 @@
 {
   "name": {
-    "en": "L510"
+    "en": "P110"
   },
-  "class": "light",
+  "class": "socket",
   "capabilities": [
     "onoff",
-    "dim"
+    "measure_power"
   ],
   "platforms": [
     "local"
@@ -35,5 +35,8 @@
       "id": "add_devices",
       "template": "add_devices"
     }
-  ]
+  ],
+  "energy": {
+    "cumulative": true
+  }
 }

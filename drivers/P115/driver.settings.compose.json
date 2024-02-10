@@ -1,0 +1,16 @@
+[
+    {
+        "id": "ipaddress",
+        "type": "text",
+        "label": {
+            "en": "IP Address"
+        },
+        "value": "",
+        "placeholder": {
+            "en": "192.168.1.10"
+        },
+        "hint": {
+            "en": "The ip address of the user."
+        }
+    }
+]

@@ -1,7 +1,16 @@
 {
   "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
-    "allowJs": true,
-    "outDir": ".homeybuild/"
-  }
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "outDir": ".homeybuild/",
+    "sourceMap": true,
+    "target": "es2022",
+  },
+  "include": [
+    "drivers/**/*",
+    "./*"
+  ]
 }

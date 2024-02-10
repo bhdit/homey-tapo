@@ -1,0 +1,26 @@
+<script type="application/javascript">
+  Homey.setTitle("IP Lookup");
+  Homey.setSubtitle("Enter a list of IP addresses to lookup");
+  const onValidate = (event) => {
+    const resultElement = document.getElementById('result')
+    resultElement.value = "Validating..."
+    resultElement.style.color = 'white'
+
+    const iplist = document.getElementById("iplist").value;
+    Homey.emit("iplist", iplist.split('\n')).then(function (result) {
+      if (result.error) {
+        resultElement.innerText = result.error
+        resultElement.style.color = 'red'
+      } else {
+        resultElement.innerText = result.success
+        resultElement.style.color = 'green'
+      }
+    });
+  }
+</script>
+<div class="homey-form-group">
+  <label for="iplist" class="homey-form-label">IP addresses</label>
+  <textarea class="homey-form-textarea" name="iplist" id="iplist" rows="4" placeholder="192.168.1.10"></textarea>
+  <p id="result"></p>
+</div>
+<button onclick="onValidate()" class="homey-button-primary-full">Validate</button>

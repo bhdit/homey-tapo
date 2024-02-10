@@ -15,18 +15,29 @@
     "en": "Local Tapo devices communication"
   },
   "category": [
-    "lights"
+    "lights",
+    "energy"
   ],
   "permissions": [],
   "images": {
     "small": "/assets/images/small.png",
     "large": "/assets/images/large.jpg"
   },
-  "support": "mailto:tudor.popescu@bhdit.com",
+  "support": "https://community.homey.app/t/app-pro-tapo/102707",
   "homeyCommunityTopicId": 102707,
   "author": {
     "name": "Tudor Popescu",
     "email": "tudor.popescu@bhdit.com"
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "donkfather"
+      }
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/bhdit/homey-tapo/issues"
   },
   "drivers": [
     {
@@ -50,6 +61,12 @@
       },
       "pair": [
         {
+          "id": "ip_lookup",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
           "id": "list_devices",
           "template": "list_devices",
           "navigation": {
@@ -61,7 +78,23 @@
           "template": "add_devices"
         }
       ],
-      "id": "L510"
+      "id": "L510",
+      "settings": [
+        {
+          "id": "ipaddress",
+          "type": "text",
+          "label": {
+            "en": "IP Address"
+          },
+          "value": "",
+          "placeholder": {
+            "en": "192.168.1.10"
+          },
+          "hint": {
+            "en": "The ip address of the user."
+          }
+        }
+      ]
     },
     {
       "name": {
@@ -86,6 +119,12 @@
       },
       "pair": [
         {
+          "id": "ip_lookup",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
           "id": "list_devices",
           "template": "list_devices",
           "navigation": {
@@ -97,7 +136,23 @@
           "template": "add_devices"
         }
       ],
-      "id": "L900"
+      "id": "L900",
+      "settings": [
+        {
+          "id": "ipaddress",
+          "type": "text",
+          "label": {
+            "en": "IP Address"
+          },
+          "value": "",
+          "placeholder": {
+            "en": "192.168.1.10"
+          },
+          "hint": {
+            "en": "The ip address of the user."
+          }
+        }
+      ]
     },
     {
       "name": {
@@ -124,6 +179,12 @@
         "large": "/drivers/L920/assets/images/large.png"
       },
       "pair": [
+        {
+          "id": "ip_lookup",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
         {
           "id": "list_devices",
           "template": "list_devices",
@@ -164,6 +225,12 @@
       },
       "pair": [
         {
+          "id": "ip_lookup",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
           "id": "list_devices",
           "template": "list_devices",
           "navigation": {
@@ -175,7 +242,139 @@
           "template": "add_devices"
         }
       ],
-      "id": "L930"
+      "id": "L930",
+      "settings": [
+        {
+          "id": "ipaddress",
+          "type": "text",
+          "label": {
+            "en": "IP Address"
+          },
+          "value": "",
+          "placeholder": {
+            "en": "192.168.1.10"
+          },
+          "hint": {
+            "en": "The ip address of the user."
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "en": "P110"
+      },
+      "class": "socket",
+      "capabilities": [
+        "onoff",
+        "measure_power"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/P110/assets/images/small.png",
+        "large": "/drivers/P110/assets/images/large.png"
+      },
+      "pair": [
+        {
+          "id": "ip_lookup",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "energy": {
+        "cumulative": true
+      },
+      "id": "P110",
+      "settings": [
+        {
+          "id": "ipaddress",
+          "type": "text",
+          "label": {
+            "en": "IP Address"
+          },
+          "value": "",
+          "placeholder": {
+            "en": "192.168.1.10"
+          },
+          "hint": {
+            "en": "The ip address of the user."
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "en": "P115"
+      },
+      "class": "socket",
+      "capabilities": [
+        "onoff",
+        "measure_power"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/P115/assets/images/small.png",
+        "large": "/drivers/P115/assets/images/large.png"
+      },
+      "pair": [
+        {
+          "id": "ip_lookup",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "energy": {},
+      "id": "P115",
+      "settings": [
+        {
+          "id": "ipaddress",
+          "type": "text",
+          "label": {
+            "en": "IP Address"
+          },
+          "value": "",
+          "placeholder": {
+            "en": "192.168.1.10"
+          },
+          "hint": {
+            "en": "The ip address of the user."
+          }
+        }
+      ]
     }
   ],
   "capabilities": {
@@ -303,6 +502,11 @@
       "mac": {
         "manufacturer": [
           [
+            60,
+            82,
+            161
+          ],
+          [
             40,
             135,
             186
@@ -321,6 +525,11 @@
             108,
             90,
             176
+          ],
+          [
+            92,
+            98,
+            139
           ]
         ]
       }

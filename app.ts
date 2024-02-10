@@ -1,10 +1,11 @@
-'use strict';
-
-const Homey = require('homey');
+import sourceMapSupport from 'source-map-support';
+import Homey from 'homey';
 // eslint-disable-next-line node/no-unsupported-features/node-builtins
-const inspector = require('inspector');
+import inspector from 'inspector';
 
-class MyApp extends Homey.App {
+sourceMapSupport.install();
+
+export default class MyApp extends Homey.App {
 
   /**
    * onInit is called when the app is initialized.
@@ -14,10 +15,13 @@ class MyApp extends Homey.App {
     if (debug === 'enabled') {
       try {
         inspector.open(9229, '0.0.0.0');
-      } catch (err) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
         this.log(`Couldn't start inspector: ${err.message}`);
       }
     }
+    // eslint-disable-next-line no-debugger
+    debugger;
   }
 
 }
