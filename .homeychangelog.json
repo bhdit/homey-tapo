@@ -31,5 +31,8 @@
   },
   "3.0.1": {
     "en": "Update images"
+  },
+  "3.0.2": {
+    "en": "Add repair functionality"
   }
 }
