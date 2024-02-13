@@ -71,7 +71,11 @@ export = class GenericDriver extends Homey.Driver {
       console.log(`View: ${viewId}`);
     });
 
-    session.setHandler('list_devices', async () => uniqBy(await this.onPairListDevices(), 'device_id'));
+    session.setHandler('list_devices', async () => {
+      const devices = await this.getTapoDevices();
+      return this.filter(uniqBy(devices, 'device_id'))
+        .map((device) => this.mapDeviceProperties(device));
+    });
   }
 
   private validateIpAddresses(ipAddresses: string[]) {
@@ -91,14 +95,13 @@ export = class GenericDriver extends Homey.Driver {
   }
 
   protected async getDevicesByIp(): Promise<(TapoDeviceInfo | undefined | void)[]> {
-    const devices = [];
-    devices.push(
-      await Promise.all(this.ipAddresses.map(async (ipAddress) => {
-        const tapoDevice = await loginDeviceByIp(this.TAPO_USERNAME, this.TAPO_PASSWORD, ipAddress).catch(this.error);
-        return tapoDevice?.getDeviceInfo().catch(this.error);
-      })),
-    );
-    return devices.flat();
+    this.log("Login with IP's", this.ipAddresses);
+    return Promise.all(this.ipAddresses.map(async (ipAddress) => {
+      this.log('Login with IP', ipAddress);
+      const tapoDevice = await loginDeviceByIp(this.TAPO_USERNAME, this.TAPO_PASSWORD, ipAddress).catch(this.error);
+      this.log(`Tapo Device ${ipAddress}`, tapoDevice);
+      return tapoDevice?.getDeviceInfo().catch(this.error);
+    }));
   }
 
   async getTapoDevices(): Promise<TapoDeviceInfo[]> {
@@ -107,6 +110,7 @@ export = class GenericDriver extends Homey.Driver {
       throw Error('Tapo Username, Password must be set in settings. Restart app after save.');
     }
     devices.push(await this.getDevicesByIp());
+    this.log({ devicesByIp: devices });
 
     const discoveryStrategy = this.homey.discovery.getStrategy('tapomac');
     const discoveredDevices = discoveryStrategy.getDiscoveryResults();

@@ -50,7 +50,7 @@ export = class GenericDevice extends Homey.Device {
       }
       if (!this.deviceApi) return;
       try {
-        await this.updateStateFromDevice().catch(this.error);
+        await this.updateStateFromDevice();
       } catch (error) {
         this.pollingFailures += 1;
         this.error('ERROR during polling', error);
