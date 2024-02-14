@@ -32,27 +32,6 @@ export = class GenericDriver extends Homey.Driver {
     this.TAPO_PASSWORD = this.homey.settings.get('password');
   }
 
-  mapDeviceProperties({
-    model,
-    nickname,
-    device_id: deviceId,
-    ip,
-    mac,
-  }: TapoDeviceInfo): Device {
-    return {
-      name: nickname,
-      data: {
-        id: deviceId,
-        mac,
-      },
-      store: {
-        ip,
-        deviceId,
-        mac,
-      },
-    };
-  }
-
   async onPair(session: Homey.Driver.PairSession) {
     // Show a specific view by ID
     await session.showView('ip_lookup');
@@ -61,14 +40,10 @@ export = class GenericDriver extends Homey.Driver {
     await session.done();
 
     session.setHandler('iplist', async (iplist: string[]) => {
-      console.log('IP List', iplist);
+      this.log('IP List', iplist);
       const result = this.validateIpAddresses(iplist);
       this.ipAddresses = iplist;
       return result;
-    });
-    // Received when a view has changed
-    session.setHandler('showView', async (viewId) => {
-      console.log(`View: ${viewId}`);
     });
 
     session.setHandler('list_devices', async () => {
@@ -96,12 +71,13 @@ export = class GenericDriver extends Homey.Driver {
 
   protected async getDevicesByIp(): Promise<(TapoDeviceInfo | undefined | void)[]> {
     this.log("Login with IP's", this.ipAddresses);
-    return Promise.all(this.ipAddresses.map(async (ipAddress) => {
+    const devices = await Promise.all(this.ipAddresses.map(async (ipAddress) => {
       this.log('Login with IP', ipAddress);
       const tapoDevice = await loginDeviceByIp(this.TAPO_USERNAME, this.TAPO_PASSWORD, ipAddress).catch(this.error);
-      this.log(`Tapo Device ${ipAddress}`, tapoDevice);
       return tapoDevice?.getDeviceInfo().catch(this.error);
     }));
+    this.log('getDevicesByIp', devices);
+    return devices.flat();
   }
 
   async getTapoDevices(): Promise<TapoDeviceInfo[]> {
@@ -127,6 +103,27 @@ export = class GenericDriver extends Homey.Driver {
     }
 
     return devices.flat().filter(Boolean) as TapoDeviceInfo[];
+  }
+
+  private mapDeviceProperties({
+    model,
+    nickname,
+    device_id: deviceId,
+    ip,
+    mac,
+  }: TapoDeviceInfo): Device {
+    return {
+      name: nickname,
+      data: {
+        id: deviceId,
+        mac,
+      },
+      store: {
+        ip,
+        deviceId,
+        mac,
+      },
+    };
   }
 
   filter(devices: TapoDeviceInfo[]) {
