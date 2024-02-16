@@ -1,5 +1,11 @@
 import { TapoDeviceLightInfo } from 'tp-link-tapo-connect/dist/types';
+import { LightEffectOptions } from 'tp-link-tapo-connect/dist/light-effect';
 import GenericDevice from '../device';
+
+type L920Info = TapoDeviceLightInfo & {
+  lighting_effect: LightEffectOptions;
+  segment_effect: LightEffectOptions;
+}
 
 export = class Device extends GenericDevice {
 
@@ -74,9 +80,20 @@ export = class Device extends GenericDevice {
 
     await this.setCapabilityValue('onoff', deviceState.device_on);
 
-    if (deviceState?.brightness) {
-      await this.setCapabilityValue('dim', deviceState.brightness <= 0 ? 0 : deviceState.brightness / 100);
+    // If one of the effects are active the effect is tracking the
+    // brightness instead of the main device state.
+    var brightness = -1;
+    if (deviceState?.lighting_effect.enable) {
+      brightness = deviceState.lighting_effect.brightness;
+    } else if (deviceState?.segment_effect.enable) {
+      brightness = deviceState.segment_effect.brightness;
+    } else if (deviceState?.brightness) {
+      brightness = deviceState.brightness;
     }
+    if (brightness >= 0) {
+      await this.setCapabilityValue('dim', brightness / 100);
+    }
+
     if (deviceState?.color_temp) {
       await this.setCapabilityValue('light_temperature', (deviceState.color_temp - 2500) / 4000 || 0);
     }
