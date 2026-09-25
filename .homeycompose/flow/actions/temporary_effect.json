@@ -1,0 +1,466 @@
+{
+  "title": {
+    "en": "Play an effect for a while"
+  },
+  "titleFormatted": {
+    "en": "Play [[effect]] for [[duration]] seconds"
+  },
+  "hint": {
+    "en": "Afterwards the light returns to exactly how it was — colour, brightness, effect and on/off. Changing the light in the meantime cancels the return."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=L920|L930"
+    },
+    {
+      "type": "dropdown",
+      "name": "effect",
+      "values": [
+        {
+          "id": "aurora",
+          "title": {
+            "en": "Aurora"
+          }
+        },
+        {
+          "id": "bubblingCauldron",
+          "title": {
+            "en": "Bubbling Cauldron"
+          }
+        },
+        {
+          "id": "candyCane",
+          "title": {
+            "en": "Candy Cane"
+          }
+        },
+        {
+          "id": "christmas",
+          "title": {
+            "en": "Christmas"
+          }
+        },
+        {
+          "id": "flicker",
+          "title": {
+            "en": "Flicker"
+          }
+        },
+        {
+          "id": "grandmasChristmasLights",
+          "title": {
+            "en": "Grandma's Christmas Lights"
+          }
+        },
+        {
+          "id": "hanukkah",
+          "title": {
+            "en": "Hanukkah"
+          }
+        },
+        {
+          "id": "hauntedMansion",
+          "title": {
+            "en": "Haunted Mansion"
+          }
+        },
+        {
+          "id": "icicle",
+          "title": {
+            "en": "Icicle"
+          }
+        },
+        {
+          "id": "lightning",
+          "title": {
+            "en": "Lightning"
+          }
+        },
+        {
+          "id": "ocean",
+          "title": {
+            "en": "Ocean"
+          }
+        },
+        {
+          "id": "rainbow",
+          "title": {
+            "en": "Rainbow"
+          }
+        },
+        {
+          "id": "raindrop",
+          "title": {
+            "en": "Raindrop"
+          }
+        },
+        {
+          "id": "spring",
+          "title": {
+            "en": "Spring"
+          }
+        },
+        {
+          "id": "sunrise",
+          "title": {
+            "en": "Sunrise"
+          }
+        },
+        {
+          "id": "sunset",
+          "title": {
+            "en": "Sunset"
+          }
+        },
+        {
+          "id": "valentines",
+          "title": {
+            "en": "Valentines"
+          }
+        },
+        {
+          "id": "birthday",
+          "title": {
+            "en": "Birthday"
+          }
+        },
+        {
+          "id": "halloween",
+          "title": {
+            "en": "Halloween"
+          }
+        },
+        {
+          "id": "new_year",
+          "title": {
+            "en": "New year"
+          }
+        },
+        {
+          "id": "carnival",
+          "title": {
+            "en": "Carnival"
+          }
+        },
+        {
+          "id": "forest",
+          "title": {
+            "en": "Forest"
+          }
+        },
+        {
+          "id": "universe",
+          "title": {
+            "en": "Universe"
+          }
+        },
+        {
+          "id": "lake",
+          "title": {
+            "en": "Lake"
+          }
+        },
+        {
+          "id": "moonlight",
+          "title": {
+            "en": "Moonlight"
+          }
+        },
+        {
+          "id": "star",
+          "title": {
+            "en": "Star"
+          }
+        },
+        {
+          "id": "flower_field",
+          "title": {
+            "en": "Flower field"
+          }
+        },
+        {
+          "id": "volcano",
+          "title": {
+            "en": "Volcano"
+          }
+        },
+        {
+          "id": "fall",
+          "title": {
+            "en": "Fall"
+          }
+        },
+        {
+          "id": "summer",
+          "title": {
+            "en": "Summer"
+          }
+        },
+        {
+          "id": "winter",
+          "title": {
+            "en": "Winter"
+          }
+        },
+        {
+          "id": "snow",
+          "title": {
+            "en": "Snow"
+          }
+        },
+        {
+          "id": "sunny",
+          "title": {
+            "en": "Sunny"
+          }
+        },
+        {
+          "id": "happy",
+          "title": {
+            "en": "Happy"
+          }
+        },
+        {
+          "id": "dreamland",
+          "title": {
+            "en": "Dreamland"
+          }
+        },
+        {
+          "id": "quiet",
+          "title": {
+            "en": "Quiet"
+          }
+        },
+        {
+          "id": "relaxed",
+          "title": {
+            "en": "Relaxed"
+          }
+        },
+        {
+          "id": "excited",
+          "title": {
+            "en": "Excited"
+          }
+        },
+        {
+          "id": "energetic",
+          "title": {
+            "en": "Energetic"
+          }
+        },
+        {
+          "id": "thinking",
+          "title": {
+            "en": "Thinking"
+          }
+        },
+        {
+          "id": "warm",
+          "title": {
+            "en": "Warm"
+          }
+        },
+        {
+          "id": "sweet",
+          "title": {
+            "en": "Sweet"
+          }
+        },
+        {
+          "id": "tense",
+          "title": {
+            "en": "Tense"
+          }
+        },
+        {
+          "id": "sleep",
+          "title": {
+            "en": "Sleep"
+          }
+        },
+        {
+          "id": "morning",
+          "title": {
+            "en": "Morning"
+          }
+        },
+        {
+          "id": "night",
+          "title": {
+            "en": "Night"
+          }
+        },
+        {
+          "id": "siren",
+          "title": {
+            "en": "Siren"
+          }
+        },
+        {
+          "id": "movie",
+          "title": {
+            "en": "Movie"
+          }
+        },
+        {
+          "id": "candlelight",
+          "title": {
+            "en": "Candlelight"
+          }
+        },
+        {
+          "id": "bonfire",
+          "title": {
+            "en": "Bonfire"
+          }
+        },
+        {
+          "id": "dancing",
+          "title": {
+            "en": "Dancing"
+          }
+        },
+        {
+          "id": "family",
+          "title": {
+            "en": "Family"
+          }
+        },
+        {
+          "id": "fireworks",
+          "title": {
+            "en": "Fireworks"
+          }
+        },
+        {
+          "id": "electro_dance",
+          "title": {
+            "en": "Electro dance"
+          }
+        },
+        {
+          "id": "rock",
+          "title": {
+            "en": "Rock"
+          }
+        },
+        {
+          "id": "jazz",
+          "title": {
+            "en": "Jazz"
+          }
+        },
+        {
+          "id": "green",
+          "title": {
+            "en": "Green"
+          }
+        },
+        {
+          "id": "lyric",
+          "title": {
+            "en": "Lyric"
+          }
+        },
+        {
+          "id": "disco",
+          "title": {
+            "en": "Disco"
+          }
+        },
+        {
+          "id": "cyan",
+          "title": {
+            "en": "Cyan"
+          }
+        },
+        {
+          "id": "orange",
+          "title": {
+            "en": "Orange"
+          }
+        },
+        {
+          "id": "pink",
+          "title": {
+            "en": "Pink"
+          }
+        },
+        {
+          "id": "blue",
+          "title": {
+            "en": "Blue"
+          }
+        },
+        {
+          "id": "red",
+          "title": {
+            "en": "Red"
+          }
+        },
+        {
+          "id": "light_green",
+          "title": {
+            "en": "Light green"
+          }
+        },
+        {
+          "id": "purple",
+          "title": {
+            "en": "Purple"
+          }
+        },
+        {
+          "id": "yellow",
+          "title": {
+            "en": "Yellow"
+          }
+        },
+        {
+          "id": "white",
+          "title": {
+            "en": "White"
+          }
+        },
+        {
+          "id": "work",
+          "title": {
+            "en": "Work"
+          }
+        },
+        {
+          "id": "study",
+          "title": {
+            "en": "Study"
+          }
+        },
+        {
+          "id": "game",
+          "title": {
+            "en": "Game"
+          }
+        },
+        {
+          "id": "dating",
+          "title": {
+            "en": "Dating"
+          }
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "duration",
+      "min": 1,
+      "max": 86400,
+      "step": 1,
+      "placeholder": {
+        "en": "Seconds"
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "title": {
+    "en": "Play a custom effect for a while"
+  },
+  "titleFormatted": {
+    "en": "Play custom effect [[effect]] for [[duration]] seconds"
+  },
+  "hint": {
+    "en": "Afterwards the light returns to exactly how it was — colour, brightness, effect and on/off. Changing the light in the meantime cancels the return."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=L920|L930"
+    },
+    {
+      "type": "autocomplete",
+      "name": "effect",
+      "placeholder": {
+        "en": "Custom effect"
+      }
+    },
+    {
+      "type": "number",
+      "name": "duration",
+      "min": 1,
+      "max": 86400,
+      "step": 1,
+      "placeholder": {
+        "en": "Seconds"
+      }
+    }
+  ]
+}

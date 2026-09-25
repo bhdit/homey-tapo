@@ -1,19 +1,46 @@
 <script>
     Homey.setTitle("Repair device");
-    Homey.setSubtitle("Enter the IP address of the device to repair.");
+    Homey.setSubtitle("Search the network for this device, or enter its IP address.");
+
+    const input = () => document.getElementById('ipaddress');
+    const status = (text, color) => {
+        const el = document.getElementById('status');
+        el.innerText = text;
+        el.style.color = color || '';
+    };
+
     Homey.emit('getIp', {}).then(function (result) {
-        document.getElementById('ipaddress').value = result;
-    })
+        input().value = result || '';
+    });
+
+    function onDiscover() {
+        status('Searching the network...');
+        Homey.emit('discover', {})
+            .then(function (ip) {
+                input().value = ip;
+                status('Found at ' + ip + '. Press Save to reconnect.', 'green');
+            })
+            .catch(function (error) {
+                status(error.message || String(error), 'red');
+            });
+    }
 
     function onRepair() {
-        const ipaddress = document.getElementById('ipaddress').value;
-        Homey.emit("repair", ipaddress).then(function () {
-            Homey.done();
-        });
+        status('Connecting...');
+        Homey.emit("repair", input().value)
+            .then(function () {
+                Homey.done();
+            })
+            .catch(function (error) {
+                // Keep the view open so the user can correct the address.
+                status(error.message || String(error), 'red');
+            });
     }
 </script>
 <div class="homey-form-group">
     <label for="ipaddress" class="homey-form-label">IP address</label>
     <input class="homey-form-input" name="ipaddress" id="ipaddress" type="text" value="" placeholder="192.168.1.10" />
+    <p id="status"></p>
 </div>
+<button onclick="onDiscover()" class="homey-button-secondary-full">Find on network</button>
 <button onclick="onRepair()" class="homey-button-primary-full">Save</button>

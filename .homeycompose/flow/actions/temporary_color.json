@@ -1,0 +1,41 @@
+{
+  "title": {
+    "en": "Show a colour for a while"
+  },
+  "titleFormatted": {
+    "en": "Show [[color]] at [[brightness]] for [[duration]] seconds"
+  },
+  "hint": {
+    "en": "Afterwards the light returns to exactly how it was — colour, brightness, effect and on/off. Changing the light in the meantime cancels the return."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=L900|L920|L930"
+    },
+    {
+      "type": "color",
+      "name": "color"
+    },
+    {
+      "type": "range",
+      "name": "brightness",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "label": "%",
+      "labelDecimals": 0
+    },
+    {
+      "type": "number",
+      "name": "duration",
+      "min": 1,
+      "max": 86400,
+      "step": 1,
+      "placeholder": {
+        "en": "Seconds"
+      }
+    }
+  ]
+}

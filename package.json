@@ -2,10 +2,13 @@
   "name": "com.bhdit.tapo",
   "version": "0.1.0",
   "main": "app.js",
+  "engines": {
+    "node": ">=16"
+  },
   "scripts": {
     "build": "npm run setup && tsc",
     "lint": "eslint --ext .ts,.js --ignore-path .gitignore .",
-    "setup": "bash ./lib/scripts/copy-pair-views.sh && bash ./lib/scripts/copy-repair-views.sh"
+    "setup": "bash ./lib/scripts/copy-repair-views.sh"
   },
   "devDependencies": {
     "@tsconfig/node16": "^16.1.1",

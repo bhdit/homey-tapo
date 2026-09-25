@@ -37,5 +37,35 @@
   },
   "bugs": {
     "url": "https://github.com/bhdit/homey-tapo/issues"
+  },
+  "api": {
+    "listStrips": {
+      "method": "GET",
+      "path": "/strips"
+    },
+    "listEffects": {
+      "method": "GET",
+      "path": "/effects"
+    },
+    "saveEffect": {
+      "method": "POST",
+      "path": "/effects"
+    },
+    "deleteEffect": {
+      "method": "DELETE",
+      "path": "/effects/:id"
+    },
+    "preview": {
+      "method": "POST",
+      "path": "/preview"
+    },
+    "previewUndo": {
+      "method": "POST",
+      "path": "/preview/undo"
+    },
+    "previewKeep": {
+      "method": "POST",
+      "path": "/preview/keep"
+    }
   }
 }

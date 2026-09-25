@@ -1,0 +1,15 @@
+{
+  "title": {
+    "en": "Restore the state from before a temporary change"
+  },
+  "titleFormatted": {
+    "en": "Restore the state from before a temporary change"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=L510|L900|L920|L930"
+    }
+  ]
+}

@@ -39,6 +39,1148 @@
   "bugs": {
     "url": "https://github.com/bhdit/homey-tapo/issues"
   },
+  "api": {
+    "listStrips": {
+      "method": "GET",
+      "path": "/strips"
+    },
+    "listEffects": {
+      "method": "GET",
+      "path": "/effects"
+    },
+    "saveEffect": {
+      "method": "POST",
+      "path": "/effects"
+    },
+    "deleteEffect": {
+      "method": "DELETE",
+      "path": "/effects/:id"
+    },
+    "preview": {
+      "method": "POST",
+      "path": "/preview"
+    },
+    "previewUndo": {
+      "method": "POST",
+      "path": "/preview/undo"
+    },
+    "previewKeep": {
+      "method": "POST",
+      "path": "/preview/keep"
+    }
+  },
+  "flow": {
+    "actions": [
+      {
+        "title": {
+          "en": "Play a custom effect"
+        },
+        "titleFormatted": {
+          "en": "Play custom effect [[effect]]"
+        },
+        "hint": {
+          "en": "Custom effects are made in the Effect Studio, under the Tapo app settings."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=L920|L930"
+          },
+          {
+            "type": "autocomplete",
+            "name": "effect",
+            "placeholder": {
+              "en": "Custom effect"
+            }
+          }
+        ],
+        "id": "play_custom_effect"
+      },
+      {
+        "title": {
+          "en": "Play an effect or scene"
+        },
+        "titleFormatted": {
+          "en": "Play [[effect]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=L920|L930"
+          },
+          {
+            "type": "dropdown",
+            "name": "effect",
+            "values": [
+              {
+                "id": "aurora",
+                "title": {
+                  "en": "Aurora"
+                }
+              },
+              {
+                "id": "bubblingCauldron",
+                "title": {
+                  "en": "Bubbling Cauldron"
+                }
+              },
+              {
+                "id": "candyCane",
+                "title": {
+                  "en": "Candy Cane"
+                }
+              },
+              {
+                "id": "christmas",
+                "title": {
+                  "en": "Christmas"
+                }
+              },
+              {
+                "id": "flicker",
+                "title": {
+                  "en": "Flicker"
+                }
+              },
+              {
+                "id": "grandmasChristmasLights",
+                "title": {
+                  "en": "Grandma's Christmas Lights"
+                }
+              },
+              {
+                "id": "hanukkah",
+                "title": {
+                  "en": "Hanukkah"
+                }
+              },
+              {
+                "id": "hauntedMansion",
+                "title": {
+                  "en": "Haunted Mansion"
+                }
+              },
+              {
+                "id": "icicle",
+                "title": {
+                  "en": "Icicle"
+                }
+              },
+              {
+                "id": "lightning",
+                "title": {
+                  "en": "Lightning"
+                }
+              },
+              {
+                "id": "ocean",
+                "title": {
+                  "en": "Ocean"
+                }
+              },
+              {
+                "id": "rainbow",
+                "title": {
+                  "en": "Rainbow"
+                }
+              },
+              {
+                "id": "raindrop",
+                "title": {
+                  "en": "Raindrop"
+                }
+              },
+              {
+                "id": "spring",
+                "title": {
+                  "en": "Spring"
+                }
+              },
+              {
+                "id": "sunrise",
+                "title": {
+                  "en": "Sunrise"
+                }
+              },
+              {
+                "id": "sunset",
+                "title": {
+                  "en": "Sunset"
+                }
+              },
+              {
+                "id": "valentines",
+                "title": {
+                  "en": "Valentines"
+                }
+              },
+              {
+                "id": "birthday",
+                "title": {
+                  "en": "Birthday"
+                }
+              },
+              {
+                "id": "halloween",
+                "title": {
+                  "en": "Halloween"
+                }
+              },
+              {
+                "id": "new_year",
+                "title": {
+                  "en": "New year"
+                }
+              },
+              {
+                "id": "carnival",
+                "title": {
+                  "en": "Carnival"
+                }
+              },
+              {
+                "id": "forest",
+                "title": {
+                  "en": "Forest"
+                }
+              },
+              {
+                "id": "universe",
+                "title": {
+                  "en": "Universe"
+                }
+              },
+              {
+                "id": "lake",
+                "title": {
+                  "en": "Lake"
+                }
+              },
+              {
+                "id": "moonlight",
+                "title": {
+                  "en": "Moonlight"
+                }
+              },
+              {
+                "id": "star",
+                "title": {
+                  "en": "Star"
+                }
+              },
+              {
+                "id": "flower_field",
+                "title": {
+                  "en": "Flower field"
+                }
+              },
+              {
+                "id": "volcano",
+                "title": {
+                  "en": "Volcano"
+                }
+              },
+              {
+                "id": "fall",
+                "title": {
+                  "en": "Fall"
+                }
+              },
+              {
+                "id": "summer",
+                "title": {
+                  "en": "Summer"
+                }
+              },
+              {
+                "id": "winter",
+                "title": {
+                  "en": "Winter"
+                }
+              },
+              {
+                "id": "snow",
+                "title": {
+                  "en": "Snow"
+                }
+              },
+              {
+                "id": "sunny",
+                "title": {
+                  "en": "Sunny"
+                }
+              },
+              {
+                "id": "happy",
+                "title": {
+                  "en": "Happy"
+                }
+              },
+              {
+                "id": "dreamland",
+                "title": {
+                  "en": "Dreamland"
+                }
+              },
+              {
+                "id": "quiet",
+                "title": {
+                  "en": "Quiet"
+                }
+              },
+              {
+                "id": "relaxed",
+                "title": {
+                  "en": "Relaxed"
+                }
+              },
+              {
+                "id": "excited",
+                "title": {
+                  "en": "Excited"
+                }
+              },
+              {
+                "id": "energetic",
+                "title": {
+                  "en": "Energetic"
+                }
+              },
+              {
+                "id": "thinking",
+                "title": {
+                  "en": "Thinking"
+                }
+              },
+              {
+                "id": "warm",
+                "title": {
+                  "en": "Warm"
+                }
+              },
+              {
+                "id": "sweet",
+                "title": {
+                  "en": "Sweet"
+                }
+              },
+              {
+                "id": "tense",
+                "title": {
+                  "en": "Tense"
+                }
+              },
+              {
+                "id": "sleep",
+                "title": {
+                  "en": "Sleep"
+                }
+              },
+              {
+                "id": "morning",
+                "title": {
+                  "en": "Morning"
+                }
+              },
+              {
+                "id": "night",
+                "title": {
+                  "en": "Night"
+                }
+              },
+              {
+                "id": "siren",
+                "title": {
+                  "en": "Siren"
+                }
+              },
+              {
+                "id": "movie",
+                "title": {
+                  "en": "Movie"
+                }
+              },
+              {
+                "id": "candlelight",
+                "title": {
+                  "en": "Candlelight"
+                }
+              },
+              {
+                "id": "bonfire",
+                "title": {
+                  "en": "Bonfire"
+                }
+              },
+              {
+                "id": "dancing",
+                "title": {
+                  "en": "Dancing"
+                }
+              },
+              {
+                "id": "family",
+                "title": {
+                  "en": "Family"
+                }
+              },
+              {
+                "id": "fireworks",
+                "title": {
+                  "en": "Fireworks"
+                }
+              },
+              {
+                "id": "electro_dance",
+                "title": {
+                  "en": "Electro dance"
+                }
+              },
+              {
+                "id": "rock",
+                "title": {
+                  "en": "Rock"
+                }
+              },
+              {
+                "id": "jazz",
+                "title": {
+                  "en": "Jazz"
+                }
+              },
+              {
+                "id": "green",
+                "title": {
+                  "en": "Green"
+                }
+              },
+              {
+                "id": "lyric",
+                "title": {
+                  "en": "Lyric"
+                }
+              },
+              {
+                "id": "disco",
+                "title": {
+                  "en": "Disco"
+                }
+              },
+              {
+                "id": "cyan",
+                "title": {
+                  "en": "Cyan"
+                }
+              },
+              {
+                "id": "orange",
+                "title": {
+                  "en": "Orange"
+                }
+              },
+              {
+                "id": "pink",
+                "title": {
+                  "en": "Pink"
+                }
+              },
+              {
+                "id": "blue",
+                "title": {
+                  "en": "Blue"
+                }
+              },
+              {
+                "id": "red",
+                "title": {
+                  "en": "Red"
+                }
+              },
+              {
+                "id": "light_green",
+                "title": {
+                  "en": "Light green"
+                }
+              },
+              {
+                "id": "purple",
+                "title": {
+                  "en": "Purple"
+                }
+              },
+              {
+                "id": "yellow",
+                "title": {
+                  "en": "Yellow"
+                }
+              },
+              {
+                "id": "white",
+                "title": {
+                  "en": "White"
+                }
+              },
+              {
+                "id": "work",
+                "title": {
+                  "en": "Work"
+                }
+              },
+              {
+                "id": "study",
+                "title": {
+                  "en": "Study"
+                }
+              },
+              {
+                "id": "game",
+                "title": {
+                  "en": "Game"
+                }
+              },
+              {
+                "id": "dating",
+                "title": {
+                  "en": "Dating"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "play_effect"
+      },
+      {
+        "title": {
+          "en": "Restore the state from before a temporary change"
+        },
+        "titleFormatted": {
+          "en": "Restore the state from before a temporary change"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=L510|L900|L920|L930"
+          }
+        ],
+        "id": "restore_state"
+      },
+      {
+        "title": {
+          "en": "Turn on at a brightness for a while"
+        },
+        "titleFormatted": {
+          "en": "Turn on at [[brightness]] for [[duration]] seconds"
+        },
+        "hint": {
+          "en": "Afterwards the light returns to exactly how it was — colour, brightness, effect and on/off. Changing the light in the meantime cancels the return."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=L510|L900|L920|L930"
+          },
+          {
+            "type": "range",
+            "name": "brightness",
+            "min": 1,
+            "max": 100,
+            "step": 1,
+            "label": "%",
+            "labelDecimals": 0
+          },
+          {
+            "type": "number",
+            "name": "duration",
+            "min": 1,
+            "max": 86400,
+            "step": 1,
+            "placeholder": {
+              "en": "Seconds"
+            }
+          }
+        ],
+        "id": "temporary_brightness"
+      },
+      {
+        "title": {
+          "en": "Show a colour for a while"
+        },
+        "titleFormatted": {
+          "en": "Show [[color]] at [[brightness]] for [[duration]] seconds"
+        },
+        "hint": {
+          "en": "Afterwards the light returns to exactly how it was — colour, brightness, effect and on/off. Changing the light in the meantime cancels the return."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=L900|L920|L930"
+          },
+          {
+            "type": "color",
+            "name": "color"
+          },
+          {
+            "type": "range",
+            "name": "brightness",
+            "min": 1,
+            "max": 100,
+            "step": 1,
+            "label": "%",
+            "labelDecimals": 0
+          },
+          {
+            "type": "number",
+            "name": "duration",
+            "min": 1,
+            "max": 86400,
+            "step": 1,
+            "placeholder": {
+              "en": "Seconds"
+            }
+          }
+        ],
+        "id": "temporary_color"
+      },
+      {
+        "title": {
+          "en": "Play a custom effect for a while"
+        },
+        "titleFormatted": {
+          "en": "Play custom effect [[effect]] for [[duration]] seconds"
+        },
+        "hint": {
+          "en": "Afterwards the light returns to exactly how it was — colour, brightness, effect and on/off. Changing the light in the meantime cancels the return."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=L920|L930"
+          },
+          {
+            "type": "autocomplete",
+            "name": "effect",
+            "placeholder": {
+              "en": "Custom effect"
+            }
+          },
+          {
+            "type": "number",
+            "name": "duration",
+            "min": 1,
+            "max": 86400,
+            "step": 1,
+            "placeholder": {
+              "en": "Seconds"
+            }
+          }
+        ],
+        "id": "temporary_custom_effect"
+      },
+      {
+        "title": {
+          "en": "Play an effect for a while"
+        },
+        "titleFormatted": {
+          "en": "Play [[effect]] for [[duration]] seconds"
+        },
+        "hint": {
+          "en": "Afterwards the light returns to exactly how it was — colour, brightness, effect and on/off. Changing the light in the meantime cancels the return."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=L920|L930"
+          },
+          {
+            "type": "dropdown",
+            "name": "effect",
+            "values": [
+              {
+                "id": "aurora",
+                "title": {
+                  "en": "Aurora"
+                }
+              },
+              {
+                "id": "bubblingCauldron",
+                "title": {
+                  "en": "Bubbling Cauldron"
+                }
+              },
+              {
+                "id": "candyCane",
+                "title": {
+                  "en": "Candy Cane"
+                }
+              },
+              {
+                "id": "christmas",
+                "title": {
+                  "en": "Christmas"
+                }
+              },
+              {
+                "id": "flicker",
+                "title": {
+                  "en": "Flicker"
+                }
+              },
+              {
+                "id": "grandmasChristmasLights",
+                "title": {
+                  "en": "Grandma's Christmas Lights"
+                }
+              },
+              {
+                "id": "hanukkah",
+                "title": {
+                  "en": "Hanukkah"
+                }
+              },
+              {
+                "id": "hauntedMansion",
+                "title": {
+                  "en": "Haunted Mansion"
+                }
+              },
+              {
+                "id": "icicle",
+                "title": {
+                  "en": "Icicle"
+                }
+              },
+              {
+                "id": "lightning",
+                "title": {
+                  "en": "Lightning"
+                }
+              },
+              {
+                "id": "ocean",
+                "title": {
+                  "en": "Ocean"
+                }
+              },
+              {
+                "id": "rainbow",
+                "title": {
+                  "en": "Rainbow"
+                }
+              },
+              {
+                "id": "raindrop",
+                "title": {
+                  "en": "Raindrop"
+                }
+              },
+              {
+                "id": "spring",
+                "title": {
+                  "en": "Spring"
+                }
+              },
+              {
+                "id": "sunrise",
+                "title": {
+                  "en": "Sunrise"
+                }
+              },
+              {
+                "id": "sunset",
+                "title": {
+                  "en": "Sunset"
+                }
+              },
+              {
+                "id": "valentines",
+                "title": {
+                  "en": "Valentines"
+                }
+              },
+              {
+                "id": "birthday",
+                "title": {
+                  "en": "Birthday"
+                }
+              },
+              {
+                "id": "halloween",
+                "title": {
+                  "en": "Halloween"
+                }
+              },
+              {
+                "id": "new_year",
+                "title": {
+                  "en": "New year"
+                }
+              },
+              {
+                "id": "carnival",
+                "title": {
+                  "en": "Carnival"
+                }
+              },
+              {
+                "id": "forest",
+                "title": {
+                  "en": "Forest"
+                }
+              },
+              {
+                "id": "universe",
+                "title": {
+                  "en": "Universe"
+                }
+              },
+              {
+                "id": "lake",
+                "title": {
+                  "en": "Lake"
+                }
+              },
+              {
+                "id": "moonlight",
+                "title": {
+                  "en": "Moonlight"
+                }
+              },
+              {
+                "id": "star",
+                "title": {
+                  "en": "Star"
+                }
+              },
+              {
+                "id": "flower_field",
+                "title": {
+                  "en": "Flower field"
+                }
+              },
+              {
+                "id": "volcano",
+                "title": {
+                  "en": "Volcano"
+                }
+              },
+              {
+                "id": "fall",
+                "title": {
+                  "en": "Fall"
+                }
+              },
+              {
+                "id": "summer",
+                "title": {
+                  "en": "Summer"
+                }
+              },
+              {
+                "id": "winter",
+                "title": {
+                  "en": "Winter"
+                }
+              },
+              {
+                "id": "snow",
+                "title": {
+                  "en": "Snow"
+                }
+              },
+              {
+                "id": "sunny",
+                "title": {
+                  "en": "Sunny"
+                }
+              },
+              {
+                "id": "happy",
+                "title": {
+                  "en": "Happy"
+                }
+              },
+              {
+                "id": "dreamland",
+                "title": {
+                  "en": "Dreamland"
+                }
+              },
+              {
+                "id": "quiet",
+                "title": {
+                  "en": "Quiet"
+                }
+              },
+              {
+                "id": "relaxed",
+                "title": {
+                  "en": "Relaxed"
+                }
+              },
+              {
+                "id": "excited",
+                "title": {
+                  "en": "Excited"
+                }
+              },
+              {
+                "id": "energetic",
+                "title": {
+                  "en": "Energetic"
+                }
+              },
+              {
+                "id": "thinking",
+                "title": {
+                  "en": "Thinking"
+                }
+              },
+              {
+                "id": "warm",
+                "title": {
+                  "en": "Warm"
+                }
+              },
+              {
+                "id": "sweet",
+                "title": {
+                  "en": "Sweet"
+                }
+              },
+              {
+                "id": "tense",
+                "title": {
+                  "en": "Tense"
+                }
+              },
+              {
+                "id": "sleep",
+                "title": {
+                  "en": "Sleep"
+                }
+              },
+              {
+                "id": "morning",
+                "title": {
+                  "en": "Morning"
+                }
+              },
+              {
+                "id": "night",
+                "title": {
+                  "en": "Night"
+                }
+              },
+              {
+                "id": "siren",
+                "title": {
+                  "en": "Siren"
+                }
+              },
+              {
+                "id": "movie",
+                "title": {
+                  "en": "Movie"
+                }
+              },
+              {
+                "id": "candlelight",
+                "title": {
+                  "en": "Candlelight"
+                }
+              },
+              {
+                "id": "bonfire",
+                "title": {
+                  "en": "Bonfire"
+                }
+              },
+              {
+                "id": "dancing",
+                "title": {
+                  "en": "Dancing"
+                }
+              },
+              {
+                "id": "family",
+                "title": {
+                  "en": "Family"
+                }
+              },
+              {
+                "id": "fireworks",
+                "title": {
+                  "en": "Fireworks"
+                }
+              },
+              {
+                "id": "electro_dance",
+                "title": {
+                  "en": "Electro dance"
+                }
+              },
+              {
+                "id": "rock",
+                "title": {
+                  "en": "Rock"
+                }
+              },
+              {
+                "id": "jazz",
+                "title": {
+                  "en": "Jazz"
+                }
+              },
+              {
+                "id": "green",
+                "title": {
+                  "en": "Green"
+                }
+              },
+              {
+                "id": "lyric",
+                "title": {
+                  "en": "Lyric"
+                }
+              },
+              {
+                "id": "disco",
+                "title": {
+                  "en": "Disco"
+                }
+              },
+              {
+                "id": "cyan",
+                "title": {
+                  "en": "Cyan"
+                }
+              },
+              {
+                "id": "orange",
+                "title": {
+                  "en": "Orange"
+                }
+              },
+              {
+                "id": "pink",
+                "title": {
+                  "en": "Pink"
+                }
+              },
+              {
+                "id": "blue",
+                "title": {
+                  "en": "Blue"
+                }
+              },
+              {
+                "id": "red",
+                "title": {
+                  "en": "Red"
+                }
+              },
+              {
+                "id": "light_green",
+                "title": {
+                  "en": "Light green"
+                }
+              },
+              {
+                "id": "purple",
+                "title": {
+                  "en": "Purple"
+                }
+              },
+              {
+                "id": "yellow",
+                "title": {
+                  "en": "Yellow"
+                }
+              },
+              {
+                "id": "white",
+                "title": {
+                  "en": "White"
+                }
+              },
+              {
+                "id": "work",
+                "title": {
+                  "en": "Work"
+                }
+              },
+              {
+                "id": "study",
+                "title": {
+                  "en": "Study"
+                }
+              },
+              {
+                "id": "game",
+                "title": {
+                  "en": "Game"
+                }
+              },
+              {
+                "id": "dating",
+                "title": {
+                  "en": "Dating"
+                }
+              }
+            ]
+          },
+          {
+            "type": "number",
+            "name": "duration",
+            "min": 1,
+            "max": 86400,
+            "step": 1,
+            "placeholder": {
+              "en": "Seconds"
+            }
+          }
+        ],
+        "id": "temporary_effect"
+      },
+      {
+        "title": {
+          "en": "Turn off for a while"
+        },
+        "titleFormatted": {
+          "en": "Turn off for [[duration]] seconds"
+        },
+        "hint": {
+          "en": "Afterwards the light returns to exactly how it was — colour, brightness, effect and on/off. Changing the light in the meantime cancels the return."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=L510|L900|L920|L930"
+          },
+          {
+            "type": "number",
+            "name": "duration",
+            "min": 1,
+            "max": 86400,
+            "step": 1,
+            "placeholder": {
+              "en": "Seconds"
+            }
+          }
+        ],
+        "id": "temporary_off"
+      }
+    ]
+  },
   "drivers": [
     {
       "name": {
@@ -47,25 +1189,40 @@
       "class": "light",
       "capabilities": [
         "onoff",
-        "dim"
+        "dim",
+        "measure_power",
+        "meter_power",
+        "meter_power.today"
       ],
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": {
+            "en": "Power (estimated)"
+          }
+        },
+        "meter_power": {
+          "title": {
+            "en": "Energy (total)"
+          }
+        },
+        "meter_power.today": {
+          "title": {
+            "en": "Energy (today)"
+          }
+        }
+      },
       "platforms": [
         "local"
       ],
       "connectivity": [
         "lan"
       ],
+      "discovery": "tapomac",
       "images": {
         "small": "/drivers/L510/assets/images/small.png",
         "large": "/drivers/L510/assets/images/large.png"
       },
       "pair": [
-        {
-          "id": "ip_lookup",
-          "navigation": {
-            "next": "list_devices"
-          }
-        },
         {
           "id": "list_devices",
           "template": "list_devices",
@@ -105,25 +1262,40 @@
         "onoff",
         "dim",
         "light_hue",
-        "light_saturation"
+        "light_saturation",
+        "measure_power",
+        "meter_power",
+        "meter_power.today"
       ],
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": {
+            "en": "Power (estimated)"
+          }
+        },
+        "meter_power": {
+          "title": {
+            "en": "Energy (total)"
+          }
+        },
+        "meter_power.today": {
+          "title": {
+            "en": "Energy (today)"
+          }
+        }
+      },
       "platforms": [
         "local"
       ],
       "connectivity": [
         "lan"
       ],
+      "discovery": "tapomac",
       "images": {
         "small": "/drivers/L900/assets/images/small.png",
         "large": "/drivers/L900/assets/images/large.png"
       },
       "pair": [
-        {
-          "id": "ip_lookup",
-          "navigation": {
-            "next": "list_devices"
-          }
-        },
         {
           "id": "list_devices",
           "template": "list_devices",
@@ -166,25 +1338,40 @@
         "light_temperature",
         "light_hue",
         "light_saturation",
-        "tapo_effect"
+        "tapo_effect",
+        "measure_power",
+        "meter_power",
+        "meter_power.today"
       ],
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": {
+            "en": "Power (estimated)"
+          }
+        },
+        "meter_power": {
+          "title": {
+            "en": "Energy (total)"
+          }
+        },
+        "meter_power.today": {
+          "title": {
+            "en": "Energy (today)"
+          }
+        }
+      },
       "platforms": [
         "local"
       ],
       "connectivity": [
         "lan"
       ],
+      "discovery": "tapomac",
       "images": {
         "small": "/drivers/L920/assets/images/small.png",
         "large": "/drivers/L920/assets/images/large.png"
       },
       "pair": [
-        {
-          "id": "ip_lookup",
-          "navigation": {
-            "next": "list_devices"
-          }
-        },
         {
           "id": "list_devices",
           "template": "list_devices",
@@ -211,25 +1398,40 @@
         "light_temperature",
         "light_hue",
         "light_saturation",
-        "tapo_effect"
+        "tapo_effect",
+        "measure_power",
+        "meter_power",
+        "meter_power.today"
       ],
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": {
+            "en": "Power (estimated)"
+          }
+        },
+        "meter_power": {
+          "title": {
+            "en": "Energy (total)"
+          }
+        },
+        "meter_power.today": {
+          "title": {
+            "en": "Energy (today)"
+          }
+        }
+      },
       "platforms": [
         "local"
       ],
       "connectivity": [
         "lan"
       ],
+      "discovery": "tapomac",
       "images": {
         "small": "/drivers/L930/assets/images/small.png",
         "large": "/drivers/L930/assets/images/large.png"
       },
       "pair": [
-        {
-          "id": "ip_lookup",
-          "navigation": {
-            "next": "list_devices"
-          }
-        },
         {
           "id": "list_devices",
           "template": "list_devices",
@@ -267,25 +1469,34 @@
       "class": "socket",
       "capabilities": [
         "onoff",
-        "measure_power"
+        "measure_power",
+        "meter_power",
+        "meter_power.today"
       ],
+      "capabilitiesOptions": {
+        "meter_power": {
+          "title": {
+            "en": "Energy (total)"
+          }
+        },
+        "meter_power.today": {
+          "title": {
+            "en": "Energy (today)"
+          }
+        }
+      },
       "platforms": [
         "local"
       ],
       "connectivity": [
         "lan"
       ],
+      "discovery": "tapomac",
       "images": {
         "small": "/drivers/P110/assets/images/small.png",
         "large": "/drivers/P110/assets/images/large.png"
       },
       "pair": [
-        {
-          "id": "ip_lookup",
-          "navigation": {
-            "next": "list_devices"
-          }
-        },
         {
           "id": "list_devices",
           "template": "list_devices",
@@ -328,25 +1539,34 @@
       "class": "socket",
       "capabilities": [
         "onoff",
-        "measure_power"
+        "measure_power",
+        "meter_power",
+        "meter_power.today"
       ],
+      "capabilitiesOptions": {
+        "meter_power": {
+          "title": {
+            "en": "Energy (total)"
+          }
+        },
+        "meter_power.today": {
+          "title": {
+            "en": "Energy (today)"
+          }
+        }
+      },
       "platforms": [
         "local"
       ],
       "connectivity": [
         "lan"
       ],
+      "discovery": "tapomac",
       "images": {
         "small": "/drivers/P115/assets/images/small.png",
         "large": "/drivers/P115/assets/images/large.png"
       },
       "pair": [
-        {
-          "id": "ip_lookup",
-          "navigation": {
-            "next": "list_devices"
-          }
-        },
         {
           "id": "list_devices",
           "template": "list_devices",
@@ -494,6 +1714,336 @@
           "title": {
             "en": "Valentines"
           }
+        },
+        {
+          "id": "birthday",
+          "title": {
+            "en": "Birthday"
+          }
+        },
+        {
+          "id": "halloween",
+          "title": {
+            "en": "Halloween"
+          }
+        },
+        {
+          "id": "new_year",
+          "title": {
+            "en": "New year"
+          }
+        },
+        {
+          "id": "carnival",
+          "title": {
+            "en": "Carnival"
+          }
+        },
+        {
+          "id": "forest",
+          "title": {
+            "en": "Forest"
+          }
+        },
+        {
+          "id": "universe",
+          "title": {
+            "en": "Universe"
+          }
+        },
+        {
+          "id": "lake",
+          "title": {
+            "en": "Lake"
+          }
+        },
+        {
+          "id": "moonlight",
+          "title": {
+            "en": "Moonlight"
+          }
+        },
+        {
+          "id": "star",
+          "title": {
+            "en": "Star"
+          }
+        },
+        {
+          "id": "flower_field",
+          "title": {
+            "en": "Flower field"
+          }
+        },
+        {
+          "id": "volcano",
+          "title": {
+            "en": "Volcano"
+          }
+        },
+        {
+          "id": "fall",
+          "title": {
+            "en": "Fall"
+          }
+        },
+        {
+          "id": "summer",
+          "title": {
+            "en": "Summer"
+          }
+        },
+        {
+          "id": "winter",
+          "title": {
+            "en": "Winter"
+          }
+        },
+        {
+          "id": "snow",
+          "title": {
+            "en": "Snow"
+          }
+        },
+        {
+          "id": "sunny",
+          "title": {
+            "en": "Sunny"
+          }
+        },
+        {
+          "id": "happy",
+          "title": {
+            "en": "Happy"
+          }
+        },
+        {
+          "id": "dreamland",
+          "title": {
+            "en": "Dreamland"
+          }
+        },
+        {
+          "id": "quiet",
+          "title": {
+            "en": "Quiet"
+          }
+        },
+        {
+          "id": "relaxed",
+          "title": {
+            "en": "Relaxed"
+          }
+        },
+        {
+          "id": "excited",
+          "title": {
+            "en": "Excited"
+          }
+        },
+        {
+          "id": "energetic",
+          "title": {
+            "en": "Energetic"
+          }
+        },
+        {
+          "id": "thinking",
+          "title": {
+            "en": "Thinking"
+          }
+        },
+        {
+          "id": "warm",
+          "title": {
+            "en": "Warm"
+          }
+        },
+        {
+          "id": "sweet",
+          "title": {
+            "en": "Sweet"
+          }
+        },
+        {
+          "id": "tense",
+          "title": {
+            "en": "Tense"
+          }
+        },
+        {
+          "id": "sleep",
+          "title": {
+            "en": "Sleep"
+          }
+        },
+        {
+          "id": "morning",
+          "title": {
+            "en": "Morning"
+          }
+        },
+        {
+          "id": "night",
+          "title": {
+            "en": "Night"
+          }
+        },
+        {
+          "id": "siren",
+          "title": {
+            "en": "Siren"
+          }
+        },
+        {
+          "id": "movie",
+          "title": {
+            "en": "Movie"
+          }
+        },
+        {
+          "id": "candlelight",
+          "title": {
+            "en": "Candlelight"
+          }
+        },
+        {
+          "id": "bonfire",
+          "title": {
+            "en": "Bonfire"
+          }
+        },
+        {
+          "id": "dancing",
+          "title": {
+            "en": "Dancing"
+          }
+        },
+        {
+          "id": "family",
+          "title": {
+            "en": "Family"
+          }
+        },
+        {
+          "id": "fireworks",
+          "title": {
+            "en": "Fireworks"
+          }
+        },
+        {
+          "id": "electro_dance",
+          "title": {
+            "en": "Electro dance"
+          }
+        },
+        {
+          "id": "rock",
+          "title": {
+            "en": "Rock"
+          }
+        },
+        {
+          "id": "jazz",
+          "title": {
+            "en": "Jazz"
+          }
+        },
+        {
+          "id": "green",
+          "title": {
+            "en": "Green"
+          }
+        },
+        {
+          "id": "lyric",
+          "title": {
+            "en": "Lyric"
+          }
+        },
+        {
+          "id": "disco",
+          "title": {
+            "en": "Disco"
+          }
+        },
+        {
+          "id": "cyan",
+          "title": {
+            "en": "Cyan"
+          }
+        },
+        {
+          "id": "orange",
+          "title": {
+            "en": "Orange"
+          }
+        },
+        {
+          "id": "pink",
+          "title": {
+            "en": "Pink"
+          }
+        },
+        {
+          "id": "blue",
+          "title": {
+            "en": "Blue"
+          }
+        },
+        {
+          "id": "red",
+          "title": {
+            "en": "Red"
+          }
+        },
+        {
+          "id": "light_green",
+          "title": {
+            "en": "Light green"
+          }
+        },
+        {
+          "id": "purple",
+          "title": {
+            "en": "Purple"
+          }
+        },
+        {
+          "id": "yellow",
+          "title": {
+            "en": "Yellow"
+          }
+        },
+        {
+          "id": "white",
+          "title": {
+            "en": "White"
+          }
+        },
+        {
+          "id": "work",
+          "title": {
+            "en": "Work"
+          }
+        },
+        {
+          "id": "study",
+          "title": {
+            "en": "Study"
+          }
+        },
+        {
+          "id": "game",
+          "title": {
+            "en": "Game"
+          }
+        },
+        {
+          "id": "dating",
+          "title": {
+            "en": "Dating"
+          }
         }
       ]
     }
@@ -532,6 +2082,11 @@
             92,
             98,
             139
+          ],
+          [
+            176,
+            25,
+            33
           ]
         ]
       }

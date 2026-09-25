@@ -1,0 +1,25 @@
+{
+  "title": {
+    "en": "Play a custom effect"
+  },
+  "titleFormatted": {
+    "en": "Play custom effect [[effect]]"
+  },
+  "hint": {
+    "en": "Custom effects are made in the Effect Studio, under the Tapo app settings."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=L920|L930"
+    },
+    {
+      "type": "autocomplete",
+      "name": "effect",
+      "placeholder": {
+        "en": "Custom effect"
+      }
+    }
+  ]
+}

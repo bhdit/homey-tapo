@@ -2,22 +2,173 @@
 <html lang="en">
 
 <head>
-  <!-- ... -->
   <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
   <meta charset="UTF-8">
   <meta name="viewport"
     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Tapo</title>
+  <style>
+    :root {
+      --line: rgba(128, 128, 128, 0.28);
+      --muted: rgba(128, 128, 128, 0.95);
+      --accent: #015FAB;
+      --ok: #1f8a4c;
+      --bad: #c0392b;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; padding: 0 16px 24px; overflow-x: hidden; }
+    .studio { margin-bottom: 28px; }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .grow { flex: 1 1 0; min-width: 0; }
+    .hint { color: var(--muted); font-size: 13px; margin: 6px 0 0; }
+
+    .tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 14px 0; }
+    .tabs button { border: 0; background: transparent; padding: 10px 4px; font: inherit; font-size: 14px; color: inherit; cursor: pointer; }
+    .tabs button + button { border-left: 1px solid var(--line); }
+    .tabs button[aria-selected="true"] { background: var(--accent); color: #fff; }
+    .panel[hidden] { display: none; }
+
+    /* The strip itself: sections laid out like the real strip. */
+    .strip { display: grid; gap: 3px; margin: 12px 0 4px; height: 46px; }
+    .section { border-radius: 5px; border: 2px solid transparent; cursor: pointer; min-width: 0; padding: 0; }
+    .section.off { background: repeating-linear-gradient(45deg, #222, #222 4px, #333 4px, #333 8px) !important; }
+    .section:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .preview-strip { height: 22px; border-radius: 6px; margin: 10px 0 4px; border: 1px solid var(--line); overflow: hidden; }
+
+    .brush { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+    .swatch { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--line); cursor: pointer; padding: 0; }
+    .swatch[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+    .swatch.off { background: repeating-linear-gradient(45deg, #222, #222 4px, #333 4px, #333 8px); }
+    input[type="color"].picker { width: 44px; height: 36px; border: 1px solid var(--line); border-radius: 8px; padding: 2px; background: none; }
+
+    .colors { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; align-items: center; }
+    .chip { position: relative; }
+    .chip button.remove { position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; border-radius: 50%; border: 0; background: #555; color: #fff; font-size: 12px; line-height: 18px; padding: 0; cursor: pointer; }
+
+    .scenes { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-top: 10px; }
+    .scene { border: 1px solid var(--line); border-radius: 10px; padding: 8px; background: none; color: inherit; font: inherit; font-size: 13px; text-align: left; cursor: pointer; }
+    .dots { display: flex; gap: 3px; margin-bottom: 6px; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--line); }
+
+    .saved { list-style: none; padding: 0; margin: 10px 0 0; }
+    .saved li { border: 1px solid var(--line); border-radius: 10px; padding: 10px; margin-bottom: 8px; }
+    .saved .name { font-weight: 600; }
+    .saved .actions { display: flex; gap: 6px; margin-top: 8px; }
+    .saved .actions button, .small { border: 1px solid var(--line); border-radius: 8px; background: none; color: inherit; font: inherit; font-size: 13px; padding: 6px 10px; cursor: pointer; }
+
+    .undo-bar { position: sticky; bottom: 0; z-index: 2; margin: 12px 0 0; padding: 10px 12px; border-radius: 10px;
+      background: #1d2733; color: #fff; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; box-shadow: 0 4px 16px rgba(0,0,0,.25); }
+    .undo-bar[hidden] { display: none; }
+    .undo-bar .text { flex: 1 1 160px; font-size: 14px; }
+    .undo-bar button { border: 0; border-radius: 8px; padding: 8px 12px; font: inherit; font-size: 14px; cursor: pointer; }
+    .undo-bar .undo { background: #fff; color: #1d2733; font-weight: 600; }
+    .undo-bar .keep { background: transparent; color: #fff; box-shadow: inset 0 0 0 1px rgba(255,255,255,.5); }
+    .status { min-height: 20px; font-size: 14px; margin: 10px 0 0; }
+    .status.ok { color: var(--ok); }
+    .status.bad { color: var(--bad); }
+    .busy { opacity: 0.6; pointer-events: none; }
+
+    @keyframes flow { from { background-position: 0 0; } to { background-position: 200% 0; } }
+  </style>
 </head>
 
 <body>
   <header class="homey-header">
-    <p class="homey-subtitle" data-i18n="settings.subtitle">
-      <!-- This field will also be translated -->
-    </p>
+    <h1 class="homey-title">Tapo</h1>
+    <p class="homey-subtitle">Effect Studio for L920 / L930 light strips</p>
   </header>
 
+  <!-- ─────────────── Effect Studio ─────────────── -->
+  <section class="studio" id="studio">
+    <div class="homey-form-group">
+      <label class="homey-form-label" for="strip">Light strip</label>
+      <select class="homey-form-select" id="strip" style="width:100%"></select>
+      <p class="hint" id="strip-hint"></p>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="paint">Paint</button>
+      <button role="tab" aria-selected="false" data-tab="animate">Animate</button>
+      <button role="tab" aria-selected="false" data-tab="scenes">Scenes</button>
+      <button role="tab" aria-selected="false" data-tab="saved">Saved</button>
+    </div>
+
+    <!-- Paint: one colour per section, held still -->
+    <div class="panel" data-panel="paint">
+      <div class="row">
+        <label class="homey-form-label grow" for="sections">Sections: <span id="sections-value"></span></label>
+      </div>
+      <input class="homey-form-input" type="range" id="sections" min="1" max="16" value="8" style="width:100%">
+      <p class="hint">Fewer sections make wider bands. The strip stretches them over its full length.</p>
+
+      <div class="strip" id="paint-strip" aria-label="Strip sections — tap to colour"></div>
+
+      <div class="brush" id="brush" aria-label="Brush colour"></div>
+      <div class="row" style="margin-top:10px">
+        <button class="small" id="fill">Fill all</button>
+        <button class="small" id="gradient">Gradient first → last</button>
+      </div>
+    </div>
+
+    <!-- Animate: flow or chase through a list of colours -->
+    <div class="panel" data-panel="animate" hidden>
+      <div class="homey-form-group">
+        <label class="homey-form-label" for="style">Style</label>
+        <select class="homey-form-select" id="style" style="width:100%">
+          <option value="flow">Flow — smooth travelling gradient</option>
+          <option value="chase">Chase — stepping colour blocks</option>
+        </select>
+      </div>
+      <label class="homey-form-label">Colours (2–16)</label>
+      <div class="colors" id="anim-colors"></div>
+      <div class="homey-form-group" style="margin-top:12px">
+        <label class="homey-form-label" for="speed">Speed: <span id="speed-value"></span></label>
+        <input class="homey-form-input" type="range" id="speed" min="1" max="10" value="5" style="width:100%">
+      </div>
+      <div class="preview-strip" id="anim-preview" aria-hidden="true"></div>
+      <p class="hint">An approximation. The strip's own timing may differ a little.</p>
+    </div>
+
+    <!-- Scenes: firmware built-ins -->
+    <div class="panel" data-panel="scenes" hidden>
+      <p class="hint">Scenes built into the strip. Tap one to play it.</p>
+      <div class="scenes" id="scenes"></div>
+    </div>
+
+    <!-- Saved effects -->
+    <div class="panel" data-panel="saved" hidden>
+      <ul class="saved" id="saved"></ul>
+    </div>
+
+    <!-- Shared: brightness, name, actions (Paint + Animate only) -->
+    <div id="design-controls">
+      <div class="homey-form-group" style="margin-top:14px">
+        <label class="homey-form-label" for="brightness">Brightness: <span id="brightness-value"></span>%</label>
+        <input class="homey-form-input" type="range" id="brightness" min="1" max="100" value="100" style="width:100%">
+      </div>
+      <div class="homey-form-group">
+        <label class="homey-form-label" for="name">Name</label>
+        <input class="homey-form-input" id="name" maxlength="32" placeholder="e.g. Movie night" style="width:100%">
+      </div>
+      <div class="row">
+        <button class="homey-button-secondary grow" id="preview">Preview on strip</button>
+        <button class="homey-button-primary grow" id="save-effect">Save</button>
+      </div>
+      <p class="hint" id="editing-hint" hidden></p>
+      <button class="small" id="new-effect" hidden>Start a new effect instead</button>
+    </div>
+
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+
+    <div class="undo-bar" id="undo-bar" hidden>
+      <span class="text" id="undo-text"></span>
+      <button class="undo" id="undo">Undo preview</button>
+      <button class="keep" id="keep">Keep it</button>
+    </div>
+  </section>
+
+  <!-- ─────────────── Account ─────────────── -->
   <fieldset class="homey-form-fieldset">
     <legend class="homey-form-legend">Tapo account</legend>
 
@@ -36,11 +187,12 @@
         <span class="homey-form-checkbox-text">Enable debug</span>
       </label>
     </div>
-    <p style="text-align: center">Please restart app after saving.</p>
   </fieldset>
 
-  <button id="save" class="homey-button-primary-full">Save changes</button>
+  <button id="save" class="homey-button-primary-full">Save account</button>
+
   <script type="text/javascript">
+    // ---------- account (unchanged behaviour) ----------
     function initializeFields(fields) {
       fields.forEach(field => {
         const element = document.getElementById(field);
@@ -49,7 +201,7 @@
           switch (element.type) {
             case 'text':
             case 'password':
-              element.value = value;
+              element.value = value || '';
               break;
             case 'checkbox':
               if (value === 'enabled') element.checked = true;
@@ -82,16 +234,385 @@
       });
     }
 
-    function onHomeyReady(Homey) {
-      const saveElement = document.getElementById('save');
-      initializeFields(['username', 'password', 'debug']);
+    // ---------- colour helpers ----------
+    const $ = (id) => document.getElementById(id);
+    const OFF = '#000000';
+    const BRUSHES = ['#ff0000', '#ff7a00', '#ffd400', '#3cff00', '#00ffd5', '#0066ff', '#8a00ff', '#ff00b3', '#ffffff', OFF];
 
-      saveElement.addEventListener('click', function (e) {
-        document.getElementById('save').disabled = true;
+    function hexToRgb(hex) {
+      const v = hex.replace('#', '');
+      return [0, 2, 4].map((i) => parseInt(v.slice(i, i + 2), 16));
+    }
+    function rgbToHex(rgb) {
+      return '#' + rgb.map((c) => Math.round(c).toString(16).padStart(2, '0')).join('');
+    }
+    function hsvToHex(h, s, v) {
+      s /= 100; v /= 100;
+      const f = (n) => { const k = (n + h / 60) % 6; return v - v * s * Math.max(0, Math.min(k, 4 - k, 1)); };
+      return rgbToHex([f(5) * 255, f(3) * 255, f(1) * 255]);
+    }
+    function mix(a, b, t) {
+      const [x, y] = [hexToRgb(a), hexToRgb(b)];
+      return rgbToHex(x.map((c, i) => c + (y[i] - c) * t));
+    }
+
+    // ---------- state ----------
+    const state = {
+      tab: 'paint',
+      sections: 8,
+      paint: Array(16).fill('#ff7a00'),
+      brush: '#ff0000',
+      animColors: ['#0044ff', '#00e5ff', '#ffffff'],
+      editingId: null,
+      strips: [],
+      saved: [],
+    };
+
+    function status(text, kind) {
+      const el = $('status');
+      el.textContent = text || '';
+      el.className = 'status' + (kind ? ' ' + kind : '');
+    }
+
+    function api(method, path, body) {
+      return new Promise((resolve, reject) => {
+        Homey.api(method, path, body || null, (err, result) => (err ? reject(err) : resolve(result)));
+      });
+    }
+
+    async function busy(button, work) {
+      button.classList.add('busy');
+      try { return await work(); } finally { button.classList.remove('busy'); }
+    }
+
+    // ---------- rendering ----------
+    function renderTabs() {
+      document.querySelectorAll('[role=tab]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === state.tab)));
+      document.querySelectorAll('.panel').forEach((p) => { p.hidden = p.dataset.panel !== state.tab; });
+      $('design-controls').hidden = !['paint', 'animate'].includes(state.tab);
+    }
+
+    function renderPaint() {
+      $('sections-value').textContent = state.sections;
+      const strip = $('paint-strip');
+      strip.style.gridTemplateColumns = `repeat(${state.sections}, minmax(0, 1fr))`;
+      strip.innerHTML = '';
+      for (let i = 0; i < state.sections; i++) {
+        const b = document.createElement('button');
+        const color = state.paint[i];
+        b.className = 'section' + (color === OFF ? ' off' : '');
+        b.style.background = color;
+        b.setAttribute('aria-label', `Section ${i + 1}${color === OFF ? ', off' : ''}`);
+        b.addEventListener('click', () => { state.paint[i] = state.brush; renderPaint(); });
+        strip.appendChild(b);
+      }
+    }
+
+    function renderBrush() {
+      const box = $('brush');
+      box.innerHTML = '';
+      BRUSHES.forEach((c) => {
+        const b = document.createElement('button');
+        b.className = 'swatch' + (c === OFF ? ' off' : '');
+        if (c !== OFF) b.style.background = c;
+        b.setAttribute('aria-label', c === OFF ? 'Off (dark section)' : c);
+        b.setAttribute('aria-pressed', String(state.brush === c));
+        b.addEventListener('click', () => { state.brush = c; renderBrush(); });
+        box.appendChild(b);
+      });
+      const custom = document.createElement('input');
+      custom.type = 'color';
+      custom.className = 'picker';
+      custom.value = state.brush === OFF ? '#ffffff' : state.brush;
+      custom.setAttribute('aria-label', 'Custom brush colour');
+      custom.addEventListener('input', () => { state.brush = custom.value; renderBrushPressed(); });
+      box.appendChild(custom);
+    }
+    function renderBrushPressed() {
+      $('brush').querySelectorAll('.swatch').forEach((b, i) => b.setAttribute('aria-pressed', String(BRUSHES[i] === state.brush)));
+    }
+
+    function renderAnimColors() {
+      const box = $('anim-colors');
+      box.innerHTML = '';
+      state.animColors.forEach((c, i) => {
+        const chip = document.createElement('span');
+        chip.className = 'chip';
+        const input = document.createElement('input');
+        input.type = 'color';
+        input.className = 'picker';
+        input.value = c;
+        input.setAttribute('aria-label', `Colour ${i + 1}`);
+        input.addEventListener('input', () => { state.animColors[i] = input.value; renderAnimPreview(); });
+        chip.appendChild(input);
+        if (state.animColors.length > 2) {
+          const x = document.createElement('button');
+          x.className = 'remove';
+          x.textContent = '×';
+          x.setAttribute('aria-label', `Remove colour ${i + 1}`);
+          x.addEventListener('click', () => { state.animColors.splice(i, 1); renderAnimColors(); });
+          chip.appendChild(x);
+        }
+        box.appendChild(chip);
+      });
+      if (state.animColors.length < 16) {
+        const add = document.createElement('button');
+        add.className = 'small';
+        add.textContent = '+ Add';
+        add.addEventListener('click', () => { state.animColors.push(state.animColors[state.animColors.length - 1]); renderAnimColors(); });
+        box.appendChild(add);
+      }
+      renderAnimPreview();
+    }
+
+    let chaseTimer = null;
+    function renderAnimPreview() {
+      const el = $('anim-preview');
+      const speed = Number($('speed').value);
+      $('speed-value').textContent = speed;
+      clearInterval(chaseTimer);
+      el.style.animation = '';
+      if ($('style').value === 'flow') {
+        const stops = [...state.animColors, state.animColors[0]].join(', ');
+        el.style.background = `linear-gradient(90deg, ${stops})`;
+        el.style.backgroundSize = '200% 100%';
+        el.style.animation = `flow ${(12 / speed).toFixed(1)}s linear infinite`;
+      } else {
+        let offset = 0;
+        const draw = () => {
+          const blocks = Array.from({ length: 16 }, (_, i) => state.animColors[(i + offset) % state.animColors.length]);
+          el.style.backgroundSize = '';
+          el.style.background = `linear-gradient(90deg, ${blocks.map((c, i) => `${c} ${i * 6.25}% ${(i + 1) * 6.25}%`).join(', ')})`;
+          offset = (offset + state.animColors.length - 1) % state.animColors.length;
+        };
+        draw();
+        chaseTimer = setInterval(draw, 2000 / speed);
+      }
+    }
+
+    function hsbDots(colors) {
+      return colors.slice(0, 5).map(([h, s, b]) => `<span class="dot" style="background:${hsvToHex(h, s, b)}"></span>`).join('');
+    }
+
+    function renderScenes(scenes) {
+      const box = $('scenes');
+      box.innerHTML = '';
+      scenes.forEach((scene) => {
+        const b = document.createElement('button');
+        b.className = 'scene';
+        b.innerHTML = `<span class="dots">${hsbDots(scene.colors)}</span>${scene.title}`;
+        b.addEventListener('click', () => busy(b, async () => {
+          if (!requireStrip()) return;
+          status(`Playing ${scene.title}…`);
+          try {
+            await api('POST', '/preview', { deviceId: $('strip').value, scene: scene.key });
+            markPreviewing(true);
+            status(`${scene.title} is playing.`, 'ok');
+          } catch (e) { status(e.message || String(e), 'bad'); }
+        }));
+        box.appendChild(b);
+      });
+    }
+
+    function effectSwatch(effect) {
+      const stops = effect.style === 'paint'
+        ? effect.colors.map((c, i, a) => `${c} ${(i / a.length) * 100}% ${((i + 1) / a.length) * 100}%`).join(', ')
+        : effect.colors.join(', ');
+      return `<div class="preview-strip" style="background:linear-gradient(90deg, ${effect.colors.length > 1 ? stops : `${effect.colors[0]}, ${effect.colors[0]}`})"></div>`;
+    }
+
+    function renderSaved() {
+      const list = $('saved');
+      list.innerHTML = '';
+      if (!state.saved.length) {
+        list.innerHTML = '<li class="hint">No saved effects yet. Make one in Paint or Animate and press Save.</li>';
+        return;
+      }
+      state.saved.forEach((effect) => {
+        const li = document.createElement('li');
+        const label = { paint: 'Painted', flow: 'Flow', chase: 'Chase' }[effect.style];
+        li.innerHTML = `<div class="name"></div><div class="hint">${label} · ${effect.colors.length} colour(s) · ${effect.brightness}%</div>${effectSwatch(effect)}<div class="actions"></div>`;
+        li.querySelector('.name').textContent = effect.name;
+        const actions = li.querySelector('.actions');
+        const add = (text, fn) => { const b = document.createElement('button'); b.textContent = text; b.addEventListener('click', () => busy(b, fn)); actions.appendChild(b); };
+        add('Play', async () => {
+          if (!requireStrip()) return;
+          try {
+            await api('POST', '/preview', { deviceId: $('strip').value, effect });
+            markPreviewing(true);
+            status(`${effect.name} is playing.`, 'ok');
+          } catch (e) { status(e.message || String(e), 'bad'); }
+        });
+        add('Edit', async () => loadIntoEditor(effect));
+        add('Delete', async () => {
+          if (!confirm(`Delete "${effect.name}"? Flows that use it will stop working.`)) return;
+          await api('DELETE', `/effects/${encodeURIComponent(effect.id)}`);
+          await loadSaved();
+          status(`Deleted ${effect.name}.`, 'ok');
+        });
+        list.appendChild(li);
+      });
+    }
+
+    // ---------- editor <-> effect ----------
+    function currentDesign() {
+      const style = state.tab === 'paint' ? 'paint' : $('style').value;
+      return {
+        id: state.editingId || undefined,
+        name: $('name').value.trim(),
+        style,
+        colors: style === 'paint' ? state.paint.slice(0, state.sections) : state.animColors.slice(),
+        brightness: Number($('brightness').value),
+        speed: Number($('speed').value),
+      };
+    }
+
+    function loadIntoEditor(effect) {
+      state.editingId = effect.id;
+      $('name').value = effect.name;
+      $('brightness').value = effect.brightness;
+      $('brightness-value').textContent = effect.brightness;
+      if (effect.style === 'paint') {
+        state.sections = effect.colors.length;
+        $('sections').value = state.sections;
+        effect.colors.forEach((c, i) => { state.paint[i] = c; });
+        state.tab = 'paint';
+        renderPaint();
+      } else {
+        $('style').value = effect.style;
+        $('speed').value = effect.speed || 5;
+        state.animColors = effect.colors.slice();
+        state.tab = 'animate';
+        renderAnimColors();
+      }
+      showEditing(effect.name);
+      renderTabs();
+    }
+
+    function showEditing(name) {
+      const editing = Boolean(name);
+      $('editing-hint').hidden = !editing;
+      $('new-effect').hidden = !editing;
+      $('editing-hint').textContent = editing ? `Editing "${name}". Saving updates it; flows using it keep working.` : '';
+    }
+
+    function currentStrip() {
+      return state.strips.find((s) => s.id === $('strip').value);
+    }
+
+    // The bar belongs to the selected strip: previews are tracked per strip on the Homey side.
+    function renderUndoBar() {
+      const strip = currentStrip();
+      const show = Boolean(strip && strip.previewing);
+      $('undo-bar').hidden = !show;
+      if (show) $('undo-text').textContent = `Previewing on ${strip.name}. It goes back by itself in 10 minutes.`;
+    }
+
+    function markPreviewing(value) {
+      const strip = currentStrip();
+      if (strip) strip.previewing = value;
+      renderUndoBar();
+    }
+
+    function requireStrip() {
+      if ($('strip').value) return true;
+      status('Pair an L920 or L930 light strip first.', 'bad');
+      return false;
+    }
+
+    // ---------- loading ----------
+    async function loadStrips() {
+      const { strips, scenes } = await api('GET', '/strips');
+      state.strips = strips;
+      const select = $('strip');
+      select.innerHTML = '';
+      strips.forEach((s) => {
+        const option = document.createElement('option');
+        option.value = s.id;
+        option.textContent = `${s.name} (${s.model})${s.available ? '' : ' — unavailable'}`;
+        select.appendChild(option);
+      });
+      $('strip-hint').textContent = strips.length ? '' : 'No L920/L930 light strips paired yet. You can still design and save effects.';
+      renderScenes(scenes);
+      renderUndoBar();
+    }
+
+    async function loadSaved() {
+      state.saved = await api('GET', '/effects');
+      renderSaved();
+    }
+
+    function onHomeyReady(Homey) {
+      initializeFields(['username', 'password', 'debug']);
+      $('save').addEventListener('click', function () {
+        $('save').disabled = true;
         setFields(['username', 'password', 'debug']);
-        document.getElementById('save').disabled = false;
+        $('save').disabled = false;
+        status('Account saved. Devices reconnect automatically.', 'ok');
       });
 
+      document.querySelectorAll('[role=tab]').forEach((b) => b.addEventListener('click', () => { state.tab = b.dataset.tab; renderTabs(); }));
+      $('sections').addEventListener('input', () => { state.sections = Number($('sections').value); renderPaint(); });
+      $('fill').addEventListener('click', () => { state.paint.fill(state.brush); renderPaint(); });
+      $('gradient').addEventListener('click', () => {
+        const [first, last] = [state.paint[0], state.paint[state.sections - 1]];
+        for (let i = 0; i < state.sections; i++) state.paint[i] = mix(first, last, state.sections === 1 ? 0 : i / (state.sections - 1));
+        renderPaint();
+      });
+      $('style').addEventListener('change', renderAnimPreview);
+      $('speed').addEventListener('input', renderAnimPreview);
+      $('brightness').addEventListener('input', () => { $('brightness-value').textContent = $('brightness').value; });
+      $('brightness-value').textContent = $('brightness').value;
+
+      $('preview').addEventListener('click', () => busy($('preview'), async () => {
+        if (!requireStrip()) return;
+        status('Sending to the strip…');
+        try {
+          await api('POST', '/preview', { deviceId: $('strip').value, effect: currentDesign() });
+          markPreviewing(true);
+          status('Playing on the strip. Save it to use it in flows.', 'ok');
+        } catch (e) { status(e.message || String(e), 'bad'); }
+      }));
+
+      $('save-effect').addEventListener('click', () => busy($('save-effect'), async () => {
+        try {
+          const saved = await api('POST', '/effects', currentDesign());
+          state.editingId = saved.id;
+          showEditing(saved.name);
+          await loadSaved();
+          status(`Saved "${saved.name}". Use it in Flow with "Play custom effect".`, 'ok');
+        } catch (e) { status(e.message || String(e), 'bad'); }
+      }));
+
+      $('strip').addEventListener('change', renderUndoBar);
+      $('undo').addEventListener('click', () => busy($('undo-bar'), async () => {
+        status('Putting the strip back…');
+        try {
+          await api('POST', '/preview/undo', { deviceId: $('strip').value });
+          markPreviewing(false);
+          status('Back to how it was.', 'ok');
+        } catch (e) { status(e.message || String(e), 'bad'); }
+      }));
+      $('keep').addEventListener('click', () => busy($('undo-bar'), async () => {
+        try {
+          await api('POST', '/preview/keep', { deviceId: $('strip').value });
+          markPreviewing(false);
+          status('Kept. The strip stays like this.', 'ok');
+        } catch (e) { status(e.message || String(e), 'bad'); }
+      }));
+
+      $('new-effect').addEventListener('click', () => {
+        state.editingId = null;
+        $('name').value = '';
+        showEditing(null);
+        status('');
+      });
+
+      renderTabs();
+      renderPaint();
+      renderBrush();
+      renderAnimColors();
+      Promise.all([loadStrips(), loadSaved()]).catch((e) => status(e.message || String(e), 'bad'));
       Homey.ready();
     }
   </script>
