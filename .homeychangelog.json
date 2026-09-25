@@ -40,5 +40,8 @@
   },
   "3.0.4": {
     "en": "Improve stability"
+  },
+  "3.1.0": {
+    "en": "Devices are found automatically and follow IP changes. Energy readings for plugs and lights. Temporary light states in Flow. Effect Studio for light strips with 55 built-in scenes. Clearer errors."
   }
 }
